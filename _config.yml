@@ -7,7 +7,7 @@ baseurl:            '/'
 
 # Building Settings
 markdown:           kramdown
-highlighter:        pygments
+highlighter:        rouge
 permalink:          /:year/:month/:day/:title/
 
 # Author
