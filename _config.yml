@@ -24,7 +24,7 @@ gems:
 paginate:           5
 
 
-version:            Based On 2.1.0
+version:            Based On Hyde2.1.0
 
 github:
   repo:             https://github.com/whoisnian/whoisnian.github.io
