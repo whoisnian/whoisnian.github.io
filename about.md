@@ -1,7 +1,6 @@
 ---
 layout: page
 title: About
-<<<<<<< HEAD
 ---
 
 <p class="message">
@@ -42,4 +41,3 @@ You can find the source code for the Jekyll new theme at:
 You can find the source code for Jekyll at
 {% include icon-github.html username="jekyll" %} /
 [jekyll](https://github.com/jekyll/jekyll)
->>>>>>> 63ae08de55c0d72ff8c6a961b8a2559eaf8d8a99
