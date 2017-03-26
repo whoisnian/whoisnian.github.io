@@ -2,8 +2,8 @@
 title:              '念'
 tagline:            'Anything is possible'
 description:        'Anything is possible.'
-url:                'http://blog.whoisnian.com'
-baseurl:            '/'
+url:                http://blog.whoisnian.com
+baseurl:            /
 
 # Building Settings
 markdown:           kramdown
@@ -13,7 +13,7 @@ permalink:          /:year/:month/:day/:title/
 # Author
 author: 
   name:             'nian'
-  url:              https://whoisnian.com/
+  url:              http://whoisnian.com/
 
 # gems
 gems:             
@@ -23,8 +23,5 @@ gems:
 # paginate
 paginate:           5
 
-
-version:            Based On Hyde2.1.0
-
-github:
-  repo:             https://github.com/whoisnian/whoisnian.github.io
+# ICP
+icp_id: 豫ICP备16041311号
