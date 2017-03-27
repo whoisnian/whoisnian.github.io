@@ -21,7 +21,7 @@ gems:
   - jekyll-gist
 
 # paginate
-paginate:           5
+paginate:           6
 
 # excerpt
 excerpt_separator:  '<!-- more -->'

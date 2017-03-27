@@ -53,12 +53,6 @@ html {
  * out above content in mobile and later moves to the side with wider viewports.
  */
 
-.avatar {
-	width: 100%;
-	height: 100%;
-	border-radius: 100%;
-}
-
 .sidebar {
   text-align: center;
   padding: 2rem 1rem;
