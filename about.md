@@ -2,23 +2,30 @@
 layout: page
 title: About
 ---
-<span>
-<img src="/avatar.jpg" alt="nian" width="100px" height="100px" align="left"/>
-Name: 愿与念  
-School: NEU  
-Grade: 大一   
-</span>
-<br/>
 
-## 1. Who is nian?  
-* 当然是我喽！
+<img src="/avatar.jpg" alt="nian" width="100px" height="100px" />
+ 
+## 1. Who is Nian?  
 
-## 2. Why is nian?  
-* 愿与念，原心与今心。因为这句话而喜欢上了这两个字，就用“念”来提醒自己要好好把握住如今的心吧。  
+> 当然就是我喽！  
+> 名字嘛，叫我念就好。  
+> 出生于1998年，目前就读于东北大学计算机类 I 。  
+> 大一的生活，真的比高中自由得多呢！  
 
-## 3. What does nian like?  
-* 科幻小说。长篇的看过刘慈欣的《三体》，阿西莫夫的《基地三部曲》；短篇的则主要是国内刘慈欣，王晋康，何夕等作家的短篇小说集。
-* 电脑游戏。喜欢守望先锋，在LOL里主玩机器人，在DNF里主玩圣骑士，众多游戏有一个共同点：不谈技术我们还可以做朋友。。。
+## 2. Why is Nian?  
 
-## 4. ???
+> 愿与念，原心与今心。  
+> 因为这句话，而喜欢上了“念”。  
 
+## 3. What does Nian like?  
+
+> 小说：科幻小说最喜欢《三体》和《基地三部曲》，玄幻小说最喜欢《雪中悍刀行》。  
+
+> 游戏：玩过守望先锋，LOL，DNF等，不太喜欢手游。更喜欢以娱乐而不是比赛的心态打游戏。~~手残才不是主要原因呢！~~
+
+## 4. How to contact Nian?  
+
+> QQ: [763798866](http://wpa.qq.com/msgrd?v=3&uin=763798866&site=qq&menu=yes)  
+> Email: [zhuchangbao2017@gmail.com](mailto:zhuchangbao2017@gmail.com)  
+> GitHub: [https://github.com/whoisnian](https://github.com/whoisnian)  
+> Telegram: [https://telegram.me/whoisnian](https://telegram.me/whoisnian)  
