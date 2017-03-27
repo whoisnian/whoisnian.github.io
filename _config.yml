@@ -23,5 +23,8 @@ gems:
 # paginate
 paginate:           5
 
+# excerpt
+excerpt_separator:  '<!-- more -->'
+
 # ICP
-icp_id: 豫ICP备16041311号
+icp_id:             豫ICP备16041311号
