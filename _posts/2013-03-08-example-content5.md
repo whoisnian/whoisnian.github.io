@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Example content5
+tags: example5
 ---
 
 
