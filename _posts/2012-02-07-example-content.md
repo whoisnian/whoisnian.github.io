@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Example content
-tags: example1
+categories: example1
 ---
 
 
