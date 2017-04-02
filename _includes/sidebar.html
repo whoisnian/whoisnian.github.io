@@ -12,23 +12,9 @@
 
     <nav class="sidebar-nav">
       <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.baseurl }}">Home</a>
-
-      {% comment %}
-        The code below dynamically generates a sidebar nav of pages with
-        `layout: page` in the front-matter. See readme for usage.
-      {% endcomment %}
-
-      {% assign pages_list = site.pages %}
-      {% for node in pages_list %}
-        {% if node.title != null %}
-          {% if node.layout == "page" %}
-            <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-
-      <a class="sidebar-nav-item" href="{{ site.baseurl }}">null</a>
-      <a class="sidebar-nav-item" href="{{ site.baseurl }}">null</a>
+      <a class="sidebar-nav-item" href="{{ site.baseurl }}category/categories/">Categories</a>
+	  <a class="siderbar-nav-item" href="{{ site.baseurl }}category/ArchLinux/">Arch Linux</a>
+	  <a class="sidebar-nav-item" href="{{ site.baseurl }}about/">About</a>
       <span class="sidebar-nav-item">{{ site.icp_id }}</span>
     </nav>
 
