@@ -16,7 +16,7 @@ title: Home
 	  {{ post.date | date:"%Y-%m-%d" }}
 	
 	  {% for category in post.categories %}
-	    <a href="/category?category={{ category }}">{{ category }}</a>
+	    <a href="/category/{{ category }}">{{ category }}</a>
 	  {% endfor %}
 	</span>
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Example content4
-categories: example4 example5
+categories: example4
 ---
 
 
