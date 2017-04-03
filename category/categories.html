@@ -3,8 +3,6 @@ layout: page
 title: Categories
 ---
 
-<hr/>
-
 {% for category in site.categories %}
 <h2>
   {{ category | first }}(<a href="/category/{{ category | first }}" >{{ category | last | size }}</a>)
