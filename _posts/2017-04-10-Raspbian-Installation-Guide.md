@@ -30,6 +30,68 @@ categories: Raspberry
 * 取消挂载：  
   `$ sudo unmount boot`  
 
-### 启动  
+### SSH连接
+* 在 NetworkManager 中新建一个连接，选择“有线以太网（共享）”，然后用一根网线连接树莓派和笔记本，接通树莓派电源。  
+* 查看以太网口IP地址：  
+  `$ ip addr`  
+  {% highlight default %}
+  ......  
+  2: enp6s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000  
+    link/ether c8:5b:76:3a:6d:37 brd ff:ff:ff:ff:ff:ff  
+    inet 10.42.0.1/24 brd 10.42.0.255 scope global enp6s0  
+       valid_lft forever preferred_lft forever  
+    inet6 fe80::3150:5745:898e:3350/64 scope link  
+       valid_lft forever preferred_lft forever  
+  ......  
+  {% endhighlight %}
+* 搜索树莓派IP地址（注意换成你自己的以太网口IP）：  
+  `$ nmap 10.42.0.1/24`  
+  {% highlight default %}
+  Starting Nmap 7.40 ( https://nmap.org ) at 2017-04-11 13:31 CST  
+  Nmap scan report for 10.42.0.1  
+  Host is up (0.000045s latency).  
+  Not shown: 999 closed ports  
+  PORT   STATE SERVICE  
+  53/tcp open  domain  
+  
+  Nmap scan report for 10.42.0.131  
+  Host is up (0.0042s latency).  
+  Not shown: 999 closed ports  
+  PORT   STATE SERVICE  
+  22/tcp open  ssh  
+  
+  Nmap done: 256 IP addresses (2 hosts up) scanned in 2.53 seconds  
+  {% endhighlight %}
+* 连接树莓派：  
+  `$ ssh pi@10.42.0.131`  
+  默认密码：raspberry  
 
-__Loading......__
+### 基础配置
+* 进入配置界面：  
+  `$ sudo raspi-config`  
+  ![raspi-config](/public/image/raspi-config.png)
+* 选择1，修改默认密码。  
+* 选择4-I1，修改语言环境。  
+* 选择4-I2，修改时区。  
+* 选择7-A1，扩展SD卡。  
+* 重启：  
+  `$ sudo reboot`  
+
+### 启用root账户
+* 设置root密码：  
+  `$ sudo passwd root`  
+* 解锁root账户：  
+  `$ sudo passwd --unlock root`  
+
+### 更换镜像源
+* 换用清华源：  
+  `$ sudo nano /etc/apt/sources.list`  
+  注释掉原有的官方源，再加入以下内容：  
+  ```
+  deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ jessie main non-free contrib  
+  deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ jessie main non-free contrib  
+  ```
+* 更新软件源列表：  
+  `$ sudo update`  
+* 更新系统：  
+  `$ sudo upgrade`

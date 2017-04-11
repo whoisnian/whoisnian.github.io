@@ -182,8 +182,8 @@ categories: ArchLinux
 ### 重启。
 * 输入 exit 或按 Ctrl+D 退出 chroot。然后卸载挂载的分区：  
   `# umount -R /mnt`  
-  移除安装介质并执行 reboot 。  
-  现在开始享受你的 Arch 吧！  
+  移除安装介质并重启:  
+  `# reboot`  
 
 > Thanks to:  
 > 博客：[约伊兹的萌狼乡手札](https://blog.yoitsu.moe/arch-linux/installing_arch_linux_for_complete_newbies.html)  
