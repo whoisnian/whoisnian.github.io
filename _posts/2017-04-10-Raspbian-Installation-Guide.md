@@ -26,7 +26,7 @@ categories: Raspberry
   `$ mkdir boot`  
   `$ sudo mount /dev/sdc1 boot`  
 * 创建文件：  
-  `$ sudo touch ssh`  
+  `$ sudo touch boot/ssh`  
 * 取消挂载：  
   `$ sudo unmount boot`  
 
@@ -92,6 +92,6 @@ categories: Raspberry
   deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ jessie main non-free contrib  
   ```
 * 更新软件源列表：  
-  `$ sudo update`  
+  `$ sudo apt-get update`  
 * 更新系统：  
-  `$ sudo upgrade`
+  `$ sudo apt-get upgrade`
