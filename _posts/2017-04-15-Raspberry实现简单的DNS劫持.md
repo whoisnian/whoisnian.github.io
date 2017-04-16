@@ -1,4 +1,4 @@
-﻿---
+---
 layout: post
 title: Raspberry实现简单的DNS劫持
 categories: Raspberry
