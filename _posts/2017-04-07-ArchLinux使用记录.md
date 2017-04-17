@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ArchLinux
+title: ArchLinux使用记录
 categories: ArchLinux
 ---
 
