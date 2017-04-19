@@ -29,3 +29,6 @@ title: About
 > Email: [zhuchangbao2017@gmail.com](mailto:zhuchangbao2017@gmail.com)  
 > GitHub: [https://github.com/whoisnian](https://github.com/whoisnian)  
 > Telegram: [https://telegram.me/whoisnian](https://telegram.me/whoisnian)  
+
+<hr/>
+Old Blog: [https://whoisnian.com](https://whoisnian.com)  
