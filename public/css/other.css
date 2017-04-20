@@ -11,3 +11,12 @@
 .read-all {
 	text-align: right;
 }
+
+.media-left {
+	float: left;
+	margin-top: 4px;
+}
+
+.media-body {
+	padding-left: 60px;
+}
