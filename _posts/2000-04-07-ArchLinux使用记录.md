@@ -2,6 +2,15 @@
 layout: postt
 title: ArchLinux使用记录
 categories: ArchLinux
+comments:
+  - author:
+      type: full
+      displayName: whoisnian
+      url: 'https://github.com/whoisnian'
+      picture: 'https://avatars2.githubusercontent.com/u/23057947?v=3&s=73'
+    content: qwe
+    date: 2017-04-20T03:50:07.081Z
+
 ---
 
 > 使用 ArchLinux 过程中的一些记录。
