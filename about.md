@@ -30,5 +30,9 @@ title: About
 > GitHub: [https://github.com/whoisnian](https://github.com/whoisnian)  
 > Telegram: [https://telegram.me/whoisnian](https://telegram.me/whoisnian)  
 
-<hr/>
-Old Blog: [https://whoisnian.com](https://whoisnian.com)  
+## 5.How does Nian build this blog?  
+
+> GitHub Pages: [https://pages.github.com/](https://pages.github.com/)  
+> Jekyll: [https://jekyllrb.com/](https://jekyllrb.com/)  
+> Hyde: [https://github.com/poole/hyde](https://github.com/poole/hyde)  
+> Comm(ent|it): [https://commentit.io/](https://commentit.io/)   
