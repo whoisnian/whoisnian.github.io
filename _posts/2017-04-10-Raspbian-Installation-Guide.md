@@ -28,7 +28,7 @@ categories: Raspberry
 * 创建文件：  
   `$ sudo touch boot/ssh`  
 * 取消挂载：  
-  `$ sudo unmount boot`  
+  `$ sudo umount boot`  
 
 ### SSH连接
 * 在 NetworkManager 中新建一个连接，选择“有线以太网（共享）”，然后用一根网线连接树莓派和笔记本，接通树莓派电源。  
