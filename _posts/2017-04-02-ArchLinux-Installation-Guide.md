@@ -173,7 +173,7 @@ categories: ArchLinux
   `# pacman -S plasma kde-applications sddm kde-l10n-zh_cn`  
 * 安装桌面网络管理器：  
   `# pacman -S networkmanager`  
-* 设置开机启动项：
+* 设置开机启动项：  
   `# systemctl enable sddm`  
   `# systemctl enable NetworkManager`  
 * 安装字体（文泉驿微米黑）：  
