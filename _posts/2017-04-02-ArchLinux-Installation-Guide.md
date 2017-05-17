@@ -151,6 +151,7 @@ categories: ArchLinux
   # grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub  
   # grub-mkconfig -o /boot/grub/grub.cfg  
   {% endhighlight %}
+* Win 10用户装双系统的话最好关闭快速启动，否则启动Win 10后，下次再启动电脑时有可能找不到grub引导项。（说多了都是泪啊TAT）
 
 ### 创建用户
 * 创建新用户，并设置 zsh 为默认shell：  

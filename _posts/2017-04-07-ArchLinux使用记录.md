@@ -49,6 +49,9 @@ categories: ArchLinux
   `$ sudo pacman -S libreoffice-still libreoffice-still-zh-CN`  
 * 截屏工具：  
   `$ sudo pacman -S spectacle`  
+* Visual Studio Code:  
+  `$ sudo pacman -S yaourt`  
+  `$ sudo yaourt -S visual-studio-code`  
 * TG桌面客户端：  
   `$ sudo pacman -S telegram-desktop`  
 * 简单计算器：  
