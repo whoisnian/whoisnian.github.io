@@ -8,6 +8,11 @@
 	margin: auto;
 	border-radius: 100%;
 }
+@media (max-height: 45em) {
+	.avatar{
+		display: none;
+	}
+}
 
 .read-all {
 	text-align: right;

@@ -15,8 +15,8 @@ author:
   name:             'nian'
   url:              http://whoisnian.com/
 
-# gems
-gems:             
+# plugins
+plugins:             
   - jekyll-paginate
   - jekyll-gist
 
