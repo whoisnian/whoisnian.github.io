@@ -34,14 +34,19 @@
 
 .menu a {	
 	display: inline-block;
-	font-size: 20px;
 	text-decoration: none;
 	color: #FFFFFF;
 	background-color: #888888;
-	padding: 0 8px;
+	padding: 0 5px;
 	box-shadow: 0 5px 5px #666666;
 }
-
+@media (min-width: 28em)
+{
+  .menu {
+	padding: 0 8px;
+	font-size: 20px;
+  }
+}
 @media (min-width: 48em) {
   .menu {
     display:none;
