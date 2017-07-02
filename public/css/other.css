@@ -60,6 +60,7 @@
 }
 
 .drop-content {
+	z-index: 10;
 	text-align: center;
     background-color: #777777;
     position: absolute;
