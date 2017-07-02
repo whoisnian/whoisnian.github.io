@@ -1,5 +1,5 @@
 # Blog of nian
-Address: [http://whoisnian.com](http://whoisnian.com)  
+Address: [https://whoisnian.com](https://whoisnian.com)  
 
 ## Platform
 GitHub Pages: [https://pages.github.com/](https://pages.github.com/)  
