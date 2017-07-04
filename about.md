@@ -23,6 +23,8 @@ title: About
 
 > 游戏：玩过守望先锋，LOL，DNF等，也偶尔在steam上玩一些小游戏。更喜欢以娱乐的心态打游戏。~~手残才不是主要原因呢！~~  
 
+> 折腾：  
+
 ## 4. How to contact Nian?  
 
 > QQ: [763798866](http://wpa.qq.com/msgrd?v=3&uin=763798866&site=qq&menu=yes)  
