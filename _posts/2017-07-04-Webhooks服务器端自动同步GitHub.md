@@ -5,13 +5,13 @@ categories: Git
 ---
 
 > 我的Jekyll博客是放在阿里云上的，因此每次在本地修改文章后上传到GitHub，还需要登录服务器从GitHub同步下来，并重新构建一次。  
-> 还好GitHub有Webhooks这个东西，于是就自己动手配置了一下。  
+> 还好GitHub有Webhooks这个东西，于是就自己配置了一下。  
 
 <!-- more -->
 
 ### Webhooks
 * Webhooks的作用就是GitHub的repo触发事件时，可以post特定的数据到指定的网址。  
-  这里就是让GitHub在检测到repo被更新后访问服务器上的一个PHP页面，然后PHP调用系统的shell命令对网站目录进行操作。
+  这里就是让GitHub在检测到repo被更新后访问服务器上的一个PHP页面，然后PHP调用系统的shell命令对网站进行更新。
 
 ### 服务器端
 * 以我的博客为例，先在网站上创建一个PHP文件，内容如下：  
@@ -30,7 +30,7 @@ categories: Git
   将`filemode = true`改为`filemode = false`
 
 ### GitHub
-* 进入自己repo的Webhooks设置页面，选择Add webhook：  
+* 进入自己repo的Webhooks设置页面，选择Add webhook，只需要在Payload URL栏填写上自己网站上刚创建的PHP文件的链接即可，例如`https://whoisnian.com/webhook.php`，其它的选项不需要更改，然后确认Add webhook。  
   ![Webhooks](/public/image/Webhooks.png)
-  只需要在Payload URL栏填写上自己网站上刚创建的PHP文件的链接即可，例如`https://whoisnian.com/webhook.php`，其它的选项不需要更改，然后确认Add webhook。
-* 以后再次`git push`之后GitHub就会通过这个Webhook来自动更新服务器端对应的repo了。
+* 以后再次`git push`之后GitHub就会通过这个Webhook来自动更新服务器端对应的repo了，你也可以在Webhooks设置页面查看返回内容来确定服务器端是否运行正常。  
+  ![Webhooks_log](/public/image/Webhooks_log.png)
