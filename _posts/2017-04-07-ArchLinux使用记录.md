@@ -34,9 +34,7 @@ categories: ArchLinux
 
 ### 常用软件
 * 网页浏览器：  
-  `$ sudo pacman -S chromium`  
-* 浏览器Flash插件：  
-  `$ sudo pacman -S pepper-flash`  
+  `$ sudo pacman -S google-chrome`  
 * 科学上网：  
   `$ sudo pacman -S shadowsocks-qt5`  
 * 音乐播放器：  
@@ -45,13 +43,10 @@ categories: ArchLinux
   `$ sudo pacman -S gwenview`  
 * PDF阅读器：  
   `$ sudo pacman -S okular`  
-* office套装：  
-  `$ sudo pacman -S libreoffice-still libreoffice-still-zh-CN`  
 * 截屏工具：  
   `$ sudo pacman -S spectacle`  
-* Visual Studio Code:  
-  `$ sudo pacman -S yaourt`  
-  `$ sudo yaourt -S visual-studio-code`  
+* Visual Studio Code:    
+  `$ sudo pacman -S visual-studio-code`  
 * TG桌面客户端：  
   `$ sudo pacman -S telegram-desktop`  
 * 简单计算器：  
@@ -71,6 +66,52 @@ categories: ArchLinux
   export GTK_IM_MODULE=fcitx  
   export QT_IM_MODULE=fcitx  
   export XMODIFIERS=@im=fcitx  
+  ```
+* office套装：  
+  `$ sudo pacman -S wps-office ttf-wps-fonts`  
+  由于wps-office中包含宋体，而大多数应用程序将宋体作为默认字体，然后这些应用程序的字体就会变得特别不舒服。  
+  只在KDE的系统设置中修改字体选项不起作用，修改用户的字体配置文件可以解决：  
+  `$ vim ~/.config/fontconfig/fonts.conf`  
+  ```
+  <?xml version='1.0'?>
+  <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+  <fontconfig>
+
+      <!--设置默认字体，英文用Hack字体，中文用文泉驿字体-->
+      <alias>
+          <family>serif</family>
+          <prefer>
+              <family>Hack</family>
+              <family>WenQuanYi Micro Hei</family>
+          </prefer>
+      </alias>
+      <alias>
+          <family>sans-serif</family>
+          <prefer>
+              <family>Hack</family>
+              <family>WenQuanYi Micro Hei</family>
+          </prefer>
+      </alias>
+      <alias>
+          <family>monospace</family>
+          <prefer>
+              <family>Hack</family>
+              <family>WenQuanYi Micro Hei Mono</family>
+          </prefer>
+      </alias>
+
+      <!-- 将宋体用文泉驿字体替换-->
+ 
+      <alias binding="same">
+          <family>宋体</family>
+          <family>新宋体</family>
+          <family>SimSun</family>
+          <accept>
+              <family>WenQuanYi Micro Hei</family>
+          </accept>
+      </alias>
+
+  </fontconfig>
   ```
 
 ### 配置
