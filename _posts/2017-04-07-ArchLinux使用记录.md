@@ -43,6 +43,8 @@ categories: ArchLinux
   `$ sudo pacman -S gwenview`  
 * PDF阅读器：  
   `$ sudo pacman -S okular`  
+* 压缩包管理器：  
+  `$ sudo pacman -S ark`  
 * 截屏工具：  
   `$ sudo pacman -S spectacle`  
 * Visual Studio Code:    
