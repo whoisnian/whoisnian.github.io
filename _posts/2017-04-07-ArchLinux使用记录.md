@@ -39,6 +39,8 @@ categories: ArchLinux
   `$ sudo pacman -S shadowsocks-qt5`  
 * 音乐播放器：  
   `$ sudo pacman -S netease-cloud-music`  
+* 视频播放器：  
+  `$ sudo pacman -S vlc`  
 * 图像查看器：  
   `$ sudo pacman -S gwenview`  
 * PDF阅读器：  
@@ -51,6 +53,8 @@ categories: ArchLinux
   `$ sudo pacman -S visual-studio-code`  
 * TG桌面客户端：  
   `$ sudo pacman -S telegram-desktop`  
+* 相机：  
+  `$ sudo pacman -S kamoso`  
 * 简单计算器：  
   `$ sudo pacman -S kcalc`  
 * 文本编辑器：  
