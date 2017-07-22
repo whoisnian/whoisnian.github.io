@@ -107,15 +107,15 @@ categories: ArchLinux
       </alias>
 
       <!-- 将宋体用文泉驿字体替换-->
- 
-      <alias binding="same">
-          <family>宋体</family>
-          <family>新宋体</family>
-          <family>SimSun</family>
-          <accept>
-              <family>WenQuanYi Micro Hei</family>
-          </accept>
-      </alias>
+      <match target="pattern">
+          <test qual="any" name="family">
+	            <string>宋体</string>
+              <string>新宋体</string>
+          </test>
+          <edit name="family" mode="assign" binding="same">
+              <string>WenQuanYi Micro Hei</string>
+          </edit>
+      </match>
 
   </fontconfig>
   ```
