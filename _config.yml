@@ -2,7 +2,7 @@
 title:              '念'
 tagline:            'Anything is possible'
 description:        'Anything is possible'
-url:                http://blog.whoisnian.com
+url:                https://whoisnian.com
 baseurl:            /
 
 # Building Settings
@@ -13,7 +13,7 @@ permalink:          /:year/:month/:day/:title/
 # Author
 author: 
   name:             'nian'
-  url:              http://whoisnian.com/
+  url:              https://whoisnian.com/
 
 # plugins
 plugins:             
