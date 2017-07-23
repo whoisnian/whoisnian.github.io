@@ -76,8 +76,8 @@ categories: ArchLinux
 * office套装：  
   `$ sudo pacman -S wps-office ttf-wps-fonts`  
   由于wps-office中包含宋体，而大多数应用程序将宋体作为默认字体，然后这些应用程序的字体就会变得特别不舒服。  
-  只在KDE的系统设置中修改字体选项不起作用，修改用户的字体配置文件可以解决：  
-  `$ vim ~/.config/fontconfig/fonts.conf`  
+  只在KDE的系统设置中修改字体选项不起作用，修改字体配置文件可以解决：  
+  `$ vim /etc/fonts/local.conf`  
   ```
   <?xml version='1.0'?>
   <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
@@ -109,11 +109,26 @@ categories: ArchLinux
       <!-- 将宋体用文泉驿字体替换-->
       <match target="pattern">
           <test qual="any" name="family">
-	            <string>宋体</string>
+              <string>宋体</string>
+          </test>
+          <edit name="family" mode="assign" binding="same">
+              <string>WenQuanYi Micro Hei</string>
+          </edit>
+          </match>
+          <match target="pattern">
+          <test qual="any" name="family">
               <string>新宋体</string>
           </test>
           <edit name="family" mode="assign" binding="same">
               <string>WenQuanYi Micro Hei</string>
+          </edit>
+          </match>
+          <match target="pattern">
+          <test qual="any" name="family">
+              <string>SimSun</string>
+          </test>
+          <edit name="family" mode="assign" binding="same">
+			  <string>WenQuanYi Micro Hei</string>
           </edit>
       </match>
 
