@@ -68,7 +68,7 @@ categories: ArchLinux
   此时TIM即可输入帐号密码进行登录。  
 * 效果图：  
   * 登录界面：  
-  ![log_in](/public/image/wine_tim_show1.png)
+  ![log-in](/public/image/wine_tim_show1.png)
   * 消息界面：  
   ![message](/public/image/wine_tim_show2.png)
   * 托盘按钮：  
@@ -76,7 +76,9 @@ categories: ArchLinux
 
 ### 已知问题
 * 登录框的密码输入框可能需要多次点击才能激活。  
+* 记住密码与自动登录功能无法使用。  
 * 切换聊天对象时TIM窗口闪屏，而且可能不会立即刷新窗口。  
-* 运行过程中TIM崩溃，并提示与msls31.dll有关的错误。我在打开某个QQ群时有很大机率会出现。  
 * 在聊天框中直接点击图片查看原图时，TIM自带的图片查看器不会自动刷新，可以手动缩放引起刷新，但大图仍无法流畅查看原图。  
 * QQ聊天中的网页链接TIM使用Wine内置IE浏览器打开，效率低下。（已解决）  
+* 运行过程中TIM崩溃，并提示与msls31.dll有关的错误。我在打开某个QQ群时有很大机率会出现。
+  ![Wine-TIM-Error](/public/image/wine_tim_error.png)
