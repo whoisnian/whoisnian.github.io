@@ -30,7 +30,7 @@ categories: ArchLinux
   Server = http://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch  
   ```
   然后导入 GPG key：  
-  `sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring`  
+  `$ sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring`  
 
 ### 常用软件
 * 网页浏览器：  
@@ -77,7 +77,7 @@ categories: ArchLinux
   `$ sudo pacman -S wps-office ttf-wps-fonts`  
   由于wps-office中包含宋体，而大多数应用程序将宋体作为默认字体，然后这些应用程序的字体就会变得特别不舒服。  
   只在KDE的系统设置中修改字体选项不起作用，修改字体配置文件可以解决：  
-  `$ vim /etc/fonts/local.conf`  
+  `$ sudo vim /etc/fonts/local.conf`  
   ```
   <?xml version='1.0'?>
   <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
