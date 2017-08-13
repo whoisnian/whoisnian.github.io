@@ -33,7 +33,7 @@ categories: ArchLinux
   ......  
   {% endhighlight %}
 * 取消挂载之后开始刻录（注意修改镜像路径以及U盘名称）：  
-  `$ sudo dd bs=4M if=/home/nian/Downloads/archlinux-2017.02.01-dual.iso of=/dev/sdc status=progress >> sync`  
+  `$ sudo dd bs=4M if=/home/nian/Downloads/archlinux-2017.02.01-dual.iso of=/dev/sdc status=progress && sync`  
   注意这个过程可能需要持续几分钟，而且中间不会显示写入的过程，请等待提示写入完成之后再拔下U盘。  
 
 ### U盘启动  
