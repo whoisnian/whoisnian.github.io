@@ -80,6 +80,6 @@ categories: ArchLinux
 * 切换聊天对象时TIM窗口闪屏，而且可能不会立即刷新窗口，可以手动点击其他地方引起刷新。  
 * 选择表情页面切换有时不流畅。  
 * 在聊天框中直接点击图片查看原图时，TIM打开的图片不会自动刷新，可以手动缩放引起刷新。  
-* QQ聊天中的网页链接TIM使用Wine内置IE浏览器打开，效率低下。（已解决）  
-* 运行过程中TIM崩溃，并提示与msls31.dll有关的错误。我在打开某个QQ群时有很大机率会出现。（用winetricks安装msls31.ddl后暂时未再次出现）  
+* QQ聊天中的网页链接TIM使用Wine内置IE浏览器打开，效率低下。（[已解决](/2017/08/14/设置Wine调用Linux浏览器代替内置IE/)）  
+* 运行过程中TIM崩溃，并提示与msls31.dll有关的错误。我在打开某个QQ群时有很大机率会出现。（用winetricks安装msls31.ddl后未再次出现）  
   ![Wine-TIM-Error](/public/image/wine_tim_error.png)
