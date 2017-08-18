@@ -9,8 +9,8 @@ title: About
 
 > 当然就是我喽！  
 > 名字嘛，叫我念就好。  
-> 出生于1998年，目前就读于东北大学计算机类 I 。  
-> 大一的生活，真的比高中自由得多呢！  
+> 出生于1998年，目前就读于东北大学计算机科学与技术专业。  
+> 大二了，正准备认真一点学习，不能再像大一那样贪玩了。  
 
 ## 2. Why is Nian?  
 
@@ -23,7 +23,7 @@ title: About
 
 > 游戏：玩过守望先锋，LOL，DNF等，也偶尔在steam上玩一些小游戏。更喜欢以娱乐的心态打游戏。~~手残才不是主要原因呢！~~  
 
-> 折腾：服务器，网站，Arch，树莓派，好玩的东西真不少啊！~~这就是你即将挂科的理由？~~  
+> 折腾：服务器，网站，Arch，树莓派，好玩的东西真不少啊！~~这就是你大一差点挂科的理由？~~  
 
 ## 4. How to contact Nian?  
 
@@ -37,4 +37,3 @@ title: About
 > GitHub Pages: [https://pages.github.com/](https://pages.github.com/)  
 > Jekyll: [https://jekyllrb.com/](https://jekyllrb.com/)  
 > Hyde: [https://github.com/poole/hyde](https://github.com/poole/hyde)  
-> Comm(ent|it): [https://commentit.io/](https://commentit.io/)   
