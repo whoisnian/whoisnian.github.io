@@ -57,6 +57,10 @@ categories: ArchLinux
 ### 安装TIM
 * QQ的企业版，当成轻聊版来用也是不错的，直接到[TIM官网](http://tim.qq.com)下载Windows安装包,再通过Wine来安装：  
   `$ wine ~/Downloads/TIM1.1.5.exe`  
+  **注：**我的TIM在自动更新到1.2.0版本后出现了打不开的情况，只能换回了1.1.5。  
+  官网下载地址：[http://dldir1.qq.com/qqfile/qq/TIM1.1.5/21175/TIM1.1.5.exe](http://dldir1.qq.com/qqfile/qq/TIM1.1.5/21175/TIM1.1.5.exe)  
+  个人备份：[http://share.whoisnian.com/upload/TIM1.1.5.exe](http://share.whoisnian.com/upload/TIM1.1.5.exe)(下载速度很慢的1M小水管)  
+  安装完成后注意关闭自动更新。  
 * 运行TIM（wine + .exe文件路径）：  
   `$ wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Tencent/TIM/Bin/TIM.exe`  
 * 登录框出现后可能会无法输入帐号，但可以扫码登录。输入帐号解决办法如下：  
