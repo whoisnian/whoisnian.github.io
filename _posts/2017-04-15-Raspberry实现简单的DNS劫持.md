@@ -61,7 +61,7 @@ categories: Raspberry
   `$ vim index.php`  
   （代码来源自网络）  
   （其中`srun_portal_phone.php`是手机页面，`srun_portal_pc.php`是电脑页面）  
-  ```
+  {% highlight php %}
   <?php  
   function is_mobile_request()  
   {  
@@ -104,7 +104,7 @@ categories: Raspberry
   }
 	  is_mobile_request();
   ?>
-  ```
+  {% endhighlight %}
 * 修改文件内容。例如：  
   * 将代码中https全部替换为http；  
   * 删除各个页面中可能保留的帐号密码；  
