@@ -82,7 +82,6 @@ int main(void)
 	//使socket进入监听模式
 	listen(server_socket, 10);
 
-
 	//等待接收客户端请求
 	int client_socket;
 	struct sockaddr_in client_addr;
