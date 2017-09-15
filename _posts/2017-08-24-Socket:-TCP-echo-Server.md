@@ -1,10 +1,10 @@
 ---
 layout: post
-title: 'Socket: echo Server'
+title: 'Socket: TCP echo Server'
 categories: Programming
 ---
 
-> 玩socket第一篇，简单的echo服务器。
+> 玩socket第一篇，简单的TCP echo服务器。
 
 <!-- more -->
 
