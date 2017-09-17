@@ -11,7 +11,8 @@ categories: ArchLinux
 
 先找到 IE 所在目录，我的是`~/.wine/drive_c/Program Files (x86)/Internet Explorer`，里面的`iexplore.exe`就是那个辣眼睛的 IE。  
 * 备份是个好习惯：  
-  `$ mv iexplore.exe iexplore.exe.backup.exe`
+  `$ cd ~/.wine/drive_c/Program\ Files\ \(x86\)/Internet\ Explorer/`  
+  `$ mv iexplore.exe iexplore.exe.backup.exe`  
 * 新建一个 IE 的替代品：  
   `$ vim iexplore.exe`  
   内容如下：  
