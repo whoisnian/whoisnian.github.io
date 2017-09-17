@@ -41,10 +41,7 @@ categories: ArchLinux
   "ClientSideAntiAliasWithCore"="Y"
   "ClientSideAntiAliasWithRender"="Y"
   "ClientSideWithRender"="Y"
-  ```
-  和  
-  ```
-  REGEDIT4
+
   [HKEY_CURRENT_USER\Control Panel\Desktop]
   "FontSmoothing"="2"
   "FontSmoothingType"=dword:00000002
@@ -77,9 +74,10 @@ categories: ArchLinux
 ### 已知问题
 * 登录框的密码输入框可能需要多次点击才能激活。  
 * 记住密码与自动登录功能无法使用。  
-* 切换聊天对象时TIM窗口闪屏，而且可能不会立即刷新窗口，可以手动点击其他地方引起刷新。  
 * 选择表情页面切换有时不流畅。  
 * 在聊天框中直接点击图片查看原图时，TIM打开的图片不会自动刷新，可以手动缩放引起刷新。  
+* Windows版本选择Win xp时TIM界面为宋体，而选择Win 7时则为正常的文泉驿微米黑。  
+* 切换聊天对象时可能不会立即刷新窗口，可以手动点击其他地方引起刷新。（使用TIM1.2.0版本时未发现该问题）  
 * QQ聊天中的网页链接TIM使用Wine内置IE浏览器打开，效率低下。（[已解决](/2017/08/14/设置Wine调用Linux浏览器代替内置IE/)）  
-* 运行过程中TIM崩溃，并提示与msls31.dll有关的错误。我在打开某个QQ群时有很大机率会出现。（用winetricks安装msls31.dll后未再次出现）  
+* 运行过程中TIM崩溃，并提示与msls31.dll有关的错误。（用winetricks安装msls31.dll后未再次出现）  
   ![Wine-TIM-Error](/public/image/wine_tim_error.png)
