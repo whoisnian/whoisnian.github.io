@@ -26,8 +26,7 @@ categories: ArchLinux
   在最后面添加：  
   ```
   [archlinuxcn]  
-  SigLevel = Optional TrustAll  
-  Server = http://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch  
+  Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch  
   ```
   然后导入 GPG key：  
   `$ sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring`  
