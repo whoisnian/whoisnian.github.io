@@ -25,6 +25,3 @@ paginate:           10
 
 # excerpt
 excerpt_separator:  '<!-- more -->'
-
-# ICP
-icp_id:             豫ICP备16041311号
