@@ -2,8 +2,8 @@
 title:              '念'
 tagline:            'Anything is possible'
 description:        'Anything is possible'
-url:                https://whoisnian.com
-baseurl:            /
+url:                'https://whoisnian.com'
+baseurl:            '/'
 
 # Building Settings
 markdown:           kramdown
