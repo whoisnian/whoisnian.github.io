@@ -13,3 +13,4 @@ title: Links
 * [Share](http://share.whoisnian.com) : A website to share files.
 * [Music](http://music.whoisnian.com) : Search your favorite music.
 * [Paste](http://paste.whoisnian.com) : Paste your code freely.
+* [Baidu](http://baidu.whoisnian.com) : Simply search. (better on mobile phone)
