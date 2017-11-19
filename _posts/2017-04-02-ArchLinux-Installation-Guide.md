@@ -140,6 +140,8 @@ categories: ArchLinux
   `# passwd`
 
 ### 安装引导程序
+* 如果是Intel CPU，那么还需要安装`intel-ucode`来启用英特尔微码更新。  
+  `# pacman -S intel-ucode`  
 * 安装引导程序。
   {% highlight bash %}
   BIOS：  
