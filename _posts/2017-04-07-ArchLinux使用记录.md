@@ -35,7 +35,12 @@ categories: ArchLinux
 * 网页浏览器：  
   `$ sudo pacman -S google-chrome`  
 * 科学上网：  
-  `$ sudo pacman -S shadowsocks-qt5`  
+  `$ sudo pacman -S shadowsocks`  
+  然后复制默认配置文件并修改：  
+  `$ cd /etc/shadowsocks`  
+  `$ sudo cp example.json myconfig.json`  
+  `$ sudo vim myconfig.json`  
+  启动时执行`sudo systemctl start shadowsocks@myconfig`即可。  
 * 音乐播放器：  
   `$ sudo pacman -S netease-cloud-music`  
 * 视频播放器：  
