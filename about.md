@@ -23,6 +23,8 @@ title: About
 
 > 折腾：服务器，网站，Arch，树莓派，好玩的东西真不少啊！ ~~这就是你大一差点挂科的理由？~~  
 
+> 动漫：刚开始看，追《RWBY》和《罗小黑战记》。（[这里](http://cloud.whoisnian.com/index.php/s/Se4UG4woE8Lp9MM)有《RWBY》的四集预告片哦！）   
+
 ## 4. How to contact Nian?  
 
 > QQ: [763798866](http://wpa.qq.com/msgrd?v=3&uin=763798866&site=qq&menu=yes)  
