@@ -5,7 +5,8 @@ title: Links
 
 ### My Friends
 * [VOID001's Blog](https://void-shana.moe)  
-* [2645 Laboratory](https://blog.cool2645.com)
+* [2645 Laboratory](https://blog.cool2645.com)  
+* [梨子の遊園地](https://rikako.moe)
 
 <hr/>
 
