@@ -19,8 +19,9 @@ categories: ArchLinux
   更新仓库：  
   `$ sudo pacman -Syy`  
 * 安装Wine：  
-  `$ sudo pacman -S wine wine_gecko wine-mono`  
+  `$ sudo pacman -S wine wine_gecko wine-mono winetricks`  
   (wine_gecko和wine-mono分别用于运行依赖于Internet Explorer和.NET的程序)  
+  (winetricks用来完善windows的一些基础组件)
 * 工具：  
   * winecfg：Wine的图形界面配置程序，`winecfg`命令启动。  
   * control.exe：Windows控制面板的Wine实现，`wine control`命令启动。  
@@ -29,18 +30,37 @@ categories: ArchLinux
 **注：Wine的各种工具都不需要root权限，也最好不要使用root用户来运行Wine。**
 
 ### 字体问题
-* TIM需要用到windows字体，因此我就直接从一台Win10上直接拷来了`C:\windows\Fonts`下的所有字体，并放到了`/usr/share/fonts/WindowsFonts/`下。  
-  （如果拷过来这些字体后导致你的浏览器字体变得特别丑，请参考[ArchLinux使用记录](https://whoisnian.com/2017/04/07/ArchLinux%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/)中的字体配置文件用其他字体来替换宋体）  
-* 字体大小请在winecfg中以下页面修改DPI进行调节：  
+* 对于Wine自身的中文变方块，修改注册表可以解决。  
+  新建一个zh.reg文件：  
+  ```
+  REGEDIT4
+
+  [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink]
+  "Lucida Sans Unicode"="wqy-microhei.ttc"
+  "Microsoft Sans Serif"="wqy-microhei.ttc"
+  "Microsoft YaHei"="SourceHanSansCN-Medium.otf"
+  "MS Sans Serif"="wqy-microhei.ttc"
+  "Tahoma"="wqy-microhei.ttc"
+  "Tahoma Bold"="wqy-microhei.ttc"
+  "SimSun"="wqy-microhei.ttc"
+  "Arial"="wqy-microhei.ttc"
+  "Arial Black"="wqy-microhei.ttc"
+  "宋体"="SourceHanSansCN-Medium.otf"
+  "新細明體"="SourceHanSansCN-Medium.otf"
+  ```
+  保存文件后运行`regedit zh.reg`，重新打开winecfg可以看到Wine自身的中文乱码已经消失。
+* TIM需要用到windows字体，这里可以直接使用winetricks进行安装：  
+  `$ winetricks corefonts cjkfonts`  
+  （如果安装这些字体影响到了你的系统字体，请参考[ArchLinux使用记录](https://whoisnian.com/2017/04/07/ArchLinux%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/)中的字体配置文件用其他字体来替换宋体）  
+* 字体大小可以在winecfg中以下页面修改DPI进行调节：  
   ![Wine-TIM-Font](/public/image/wine_font.png)
-* 如果Wine中的字母和数字字体边缘锯齿化严重，需要导入注册表进行修改：
-  新建文本文件：  
+* 如果Wine中字体锯齿化严重或字体模糊，需要导入注册表进行修改：  
   ```
   REGEDIT4
   [HKEY_CURRENT_USER\Software\Wine\X11 Driver]
   "ClientSideAntiAliasWithCore"="Y"
   "ClientSideAntiAliasWithRender"="Y"
-  "ClientSideWithRender"="Y"
+  "ClientSideWithRender"="N"
 
   [HKEY_CURRENT_USER\Control Panel\Desktop]
   "FontSmoothing"="2"
@@ -48,21 +68,14 @@ categories: ArchLinux
   "FontSmoothingGamma"=dword:00000578
   "FontSmoothingOrientation"=dword:00000001
   ```
-  分别在regedit中导入。  
-* 字体乱码，例如汉字显示为空心方块，可能是语言设置问题。我在Archlinux的KDE中文环境下没有遇到。
 
 ### 安装TIM
-* QQ的企业版，当成轻聊版来用也是不错的，直接到[TIM官网](http://tim.qq.com)下载Windows安装包,再通过Wine来安装：  
-  `$ wine ~/Downloads/TIM1.2.0.exe`  
+* QQ的企业版，当成轻聊版来用也是不错的，直接到[TIM官网](https://office.qq.com)下载Windows安装包,再通过Wine来安装：  
+  `$ wine ~/Downloads/TIM2.0.0.exe`  
 * 运行TIM（wine + .exe文件路径）：  
-  `$ wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Tencent/TIM/Bin/TIM.exe`  
-* 登录框出现后可能会无法输入帐号，但可以扫码登录。输入帐号解决办法如下：  
-  `$ winecfg`  
-  为TIM增加程序设置：  
-  ![Wine-TIM](/public/image/wine_tim_1.png)  
-  在函数库中为TIM新增函数库顶替msvcp60，riched20，riched32三项，均设置为原装先于新建：  
-  ![Wine-TIM](/public/image/wine_tim_2.png)  
-  此时TIM即可输入帐号密码进行登录。  
+  `$ LC_ALL=zh_CN.UTF-8 wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Tencent/TIM/Bin/TIM.exe`  
+* 聊天页面的消息可能无法显示，需要以下组件：  
+  `$ winetricks riched20 riched30`    
 * 效果图：  
   * 登录界面：  
   ![log-in](/public/image/wine_tim_show1.png)
@@ -72,12 +85,9 @@ categories: ArchLinux
   ![button](/public/image/wine_tim_bar.png)
 
 ### 已知问题
-* 登录框的密码输入框可能需要多次点击才能激活。  
 * 记住密码与自动登录功能无法使用。  
 * 选择表情页面切换有时不流畅。  
 * 在聊天框中直接点击图片查看原图时，TIM打开的图片不会自动刷新，可以手动缩放引起刷新。  
-* Windows版本选择Win xp时TIM界面为宋体，而选择Win 7时则为正常的文泉驿微米黑。  
-* 切换聊天对象时可能不会立即刷新窗口，可以手动点击其他地方引起刷新。（使用TIM1.2.0版本时未发现该问题）  
+* Windows版本选择Win xp时TIM界面部分文字显示不正常，而选择Win 7时则为正常显示。  
+* 切换聊天对象时可能不会立即刷新窗口，可以手动点击其他地方引起刷新。（使用TIM最新版未发现该问题）  
 * QQ聊天中的网页链接TIM使用Wine内置IE浏览器打开，效率低下。（[已解决](/2017/08/14/设置Wine调用Linux浏览器代替内置IE/)）  
-* 运行过程中TIM崩溃，并提示与msls31.dll有关的错误。（用winetricks安装msls31.dll后未再次出现）  
-  ![Wine-TIM-Error](/public/image/wine_tim_error.png)
