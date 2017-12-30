@@ -37,8 +37,8 @@ categories: Server
       ProxyPassReverse / https://www.google.com/
   </VirtualHost>
   ```
-  重启 Apache 之后就可以通过你自己设置的`google.example.com`来访问 Google 了，效果类似于[google.whoisnian.com](http://google.whoisnian.com)。  
+  重启 Apache 之后就可以通过你自己设置的`google.example.com`来访问 Google 了。  
   
 **注：开启SSL是由于Google的https，不开启的话访问`http://google.example.com`会被跳转到`https://www.google.com`，被坑了好久，最终在stackoverflow上偶然看到一个[问题](https://stackoverflow.com/questions/16130303/how-to-proxy-http-to-https-using-apache-httpd-v2-2)之后才解决。** 
 
-**警告：仅通过http进行反向代理应该是比较容易被识别到的，当前后果尚不明确。**  
+**警告：仅通过http进行反向代理应该是比较容易被识别到的，所在服务器存在被封掉IP的风险。**  
