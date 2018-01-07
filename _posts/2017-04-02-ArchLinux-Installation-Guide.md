@@ -66,8 +66,8 @@ categories: ArchLinux
   `# fdisk -l`  
 * 打开要安装到的硬盘，并分区：  
   `# fdisk /dev/sda`  
-  （bios可以正常分区，一个/mnt，一个/home，一个/swap）  
-  （uefi需要为/boot单独分区，即一个/mnt，一个/home，一个/swap，一个/boot，/boot 500M已经够大了）  
+  （bios可以正常分区，一个/，一个/home，一个/swap）  
+  （uefi需要为/boot单独分区，即一个/，一个/home，一个/swap，一个/boot，/boot 500M已经够大了）  
   我的分区：  
   {% highlight default %}
   NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT  
@@ -77,7 +77,7 @@ categories: ArchLinux
   ├─sda3   8:3    0    55G  0 part /home  
   └─sda4   8:4    0   6.3G  0 part [SWAP]  
   {% endhighlight %}
-* 格式化/mut和/home分区为Ext4格式：  
+* 格式化/和/home分区为Ext4格式：  
   `# mkfs.ext4 /dev/sda2`  
   `# mkfs.ext4 /dev/sda3`  
   格式化/swap分区：  
