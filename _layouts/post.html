@@ -8,7 +8,7 @@ layout: default
     {{ page.date | date:"%Y-%m-%d" }}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	{% for category in page.categories %}
-	<a href="/category/{{ category }}">{{ category }}</a>
+	<a href="/category/#{{ category }}">{{ category }}</a>
 	{% endfor %}
   </span>
   {{ content }}

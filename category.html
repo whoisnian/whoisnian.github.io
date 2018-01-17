@@ -5,7 +5,7 @@ title: Categories
 
 {% for category in site.categories %}
 <h2>
-  {{ category | first }}(<a href="/category/{{ category | first }}" >{{ category | last | size }}</a>)
+  {{ category | first }}(<a name="{{ category | first }}" href="/category/#{{ category | first }}" >{{ category | last | size }}</a>)
 </h2>
 <ul>
   {% for post in category.last %}

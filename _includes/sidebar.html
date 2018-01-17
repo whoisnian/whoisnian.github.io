@@ -1,22 +1,18 @@
 <div class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-      <span><img class="avatar" src="/avatar.jpg" alt="" /></span>
+      <span><img class="avatar" src="/public/avatar.jpg" alt="" /></span>
 	  <h1>
-        <a href="/">
-          {{ site.title }}
-        </a>
+        <a href="/">{{ site.title }}</a>
       </h1>
       <p class="lead">{{ site.description }}</p>
     </div>
-
     <nav class="sidebar-nav">
       <a class="sidebar-nav-item{% if page.url == '/' %} active{% endif %}" href="/">Home</a>
-	  <a class="sidebar-nav-item{% if page.url == '/category/categories/' %} active{% endif %}" href="/category/categories/">Categories</a>
+	  <a class="sidebar-nav-item{% if page.url == '/category/' %} active{% endif %}" href="/category/">Category</a>
 	  <a class="sidebar-nav-item{% if page.url == '/links/' %} active{% endif %}" href="/links/">Links</a>
 	  <a class="sidebar-nav-item{% if page.url == '/about/' %} active{% endif %}" href="/about/">About</a>
     </nav>
-
     <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
   </div>
 </div>

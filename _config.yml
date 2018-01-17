@@ -1,27 +1,21 @@
 # Site Settings
-title:              '念'
-tagline:            'Anything is possible'
-description:        'Anything is possible'
-url:                https://whoisnian.co
-baseurl:            ''
+title: '念'
+description: 'Anything is possible'
+url: 'https://whoisnian.com'
+baseurl: ''
 
 # Building Settings
-markdown:           kramdown
-highlighter:        rouge
-permalink:          /:year/:month/:day/:title/
-
-# Author
-author: 
-  name:             'nian'
-  url:              https://whoisnian.com/
+markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/:title/
 
 # plugins
-plugins:             
+plugins:
+  - jekyll-feed
   - jekyll-paginate
-  - jekyll-gist
 
 # paginate
-paginate:           10
+paginate: 10
 
 # excerpt
-excerpt_separator:  '<!-- more -->'
+excerpt_separator: '<!-- more -->'
