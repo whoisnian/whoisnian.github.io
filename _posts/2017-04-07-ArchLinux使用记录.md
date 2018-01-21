@@ -34,6 +34,7 @@ categories: ArchLinux
 ### 常用软件
 * 网页浏览器：  
   `$ sudo pacman -S google-chrome`  
+  `$ sudo pacman -S firefox firefox-i18n-zh-cn`  
 * 科学上网：  
   `$ sudo pacman -S shadowsocks`  
   然后复制默认配置文件并修改：  
@@ -48,7 +49,7 @@ categories: ArchLinux
 * 图像查看器：  
   `$ sudo pacman -S gwenview`  
 * PDF阅读器：  
-  `$ sudo pacman -S okular`  
+  `$ sudo pacman -S okular poppler-data`  
 * 压缩包管理器：  
   `$ sudo pacman -S ark`  
 * 截屏工具：  
