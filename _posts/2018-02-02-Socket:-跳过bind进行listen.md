@@ -32,18 +32,26 @@ categories: Programming
 貌似`listen()`一个未进行过`bind()`的`socket`，会将这个`socket`绑定到一个临时端口上？`man 7 ip`后，总算是找到了比较详细的解释：  
 > When a process wants to receive new incoming packets or connections, it should bind a socket to a local interface address using bind(2). In this case, only one IP socket may be bound to any given local (address, port) pair. When INADDR_ANY is specified in the bind call, the socket will be bound to all local interfaces. __When listen(2) is called on an unbound socket, the socket is automatically bound to a random free port with the local address set to INADDR_ANY.__ When connect(2) is called on an unbound socket, the socket is automatically bound to a random free port or to a usable shared port with the local address set to INADDR_ANY.  
 
-当对一个未进行绑定的`socket`使用`listen()`时，`socket`会被自动绑定到一个随机的空闲端口上，绑定的IP地址会被设定为INADDR_ANY，即(0.0.0.0)，此时`listen()`会监听本地所有IP的这一端口。这正是 PASV 需要的，终于可以放心地跳过`bind()`进行`listen()`了。  
+当对一个未进行绑定的`socket`使用`listen()`时，`socket`会被自动绑定到一个随机的空闲端口上，绑定的IP地址会被设定为`INADDR_ANY`，即`(0.0.0.0)`，此时`listen()`会监听本地所有IP的这一端口。这正是 PASV 需要的，终于可以放心地跳过`bind()`进行`listen()`了。  
 ```c
 //监听本地随机端口
 struct sockaddr_in local_addr;
 socklen_t local_addr_len;
+local_addr_len = sizeof(local_addr);
+memset(&local_addr, 0, sizeof(local_addr));
 int local_socket = socket(AF_INET, SOCK_STREAM, 0);
 listen(local_socket, 10);
 
 //获取监听的IP和端口
+char IP[50];
 getsockname(local_socket, (struct sockaddr *)&local_addr, &local_addr_len);
-data_port = ntohs(local_addr.sin_port);
+strcpy(IP, inet_ntoa(local_addr.sin_addr));
+int data_port = ntohs(local_addr.sin_port);
     
 //接受客户端连接
-int data_socket = accept(local_socket, (struct sockaddr*)&local_addr, &local_addr_len);
+struct sockaddr_in client_addr;
+socklen_t client_addr_len;
+client_addr_len = sizeof(client_addr);
+memset(&client_addr, 0, sizeof(client_addr));
+int data_socket = accept(local_socket, (struct sockaddr*)&client_addr, &client_addr_len);
 ```
