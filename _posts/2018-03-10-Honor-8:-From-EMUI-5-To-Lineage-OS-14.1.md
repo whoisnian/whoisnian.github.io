@@ -45,8 +45,8 @@ Honor 8 解锁 bootloader 后才可以烧写第三方固件，先要去 EMUI 官
   > B360  
   > [http://update.hicloud.com:8180/TDS/d...ull/update.zip](http://update.hicloud.com:8180/TDS/data/files/p3/s15/G753/g104/v75675/f1/full/update.zip)  
   > [http://update.hicloud.com:8180/TDS/d...full_hw_eu.zip](http://update.hicloud.com:8180/TDS/data/files/p3/s15/G753/g104/v75675/f1/full/hw/eu/update_data_full_hw_eu.zip)  
-* `adb reboot recovery`进入 TWRP，通过`adb push update.zip /sdcard/`和`adb push update_data_full_hw_usa.zip /sdcard/`两个命令将下载好的海外版 EMUI ROM 传到手机 SD 卡根目录下。
-* 在 TWRP 的 Install 中选择`update.zip`刷入，然后不要重启，再选择`update_data_full_hw_usa.zip`刷入。
+* `adb reboot recovery`进入 TWRP，通过`adb push update.zip /sdcard/`和`adb push update_data_full_hw_eu.zip /sdcard/`两个命令将下载好的海外版 EMUI ROM 传到手机 SD 卡根目录下。
+* 在 TWRP 的 Install 中选择`update.zip`刷入，然后不要重启，再选择`update_data_full_hw_eu.zip`刷入。
 * 两个 zip 都刷入之后重启手机，重启后在`设置 -> 关于手机`中可以看到 EMUI 版本由 5.0.1 变成了 5.0，版本号由 FRD-AL10C00B396 变成了 NRD90M test-keys，然后桌面上也多出了 Google 全家桶。根据版本号，此时还不是完整版本的海外 EMUI，但已经可以作为底包开始刷 Lineage OS 了。
 * 此时手机的 Recovery 变回了原来华为的，进入 bootloader 会发现 bootloader 也被重新锁定，所以需要再次解锁 bootloader 和刷入 TWRP：
   * `adb reboot bootloader`
@@ -64,8 +64,8 @@ Honor 8 解锁 bootloader 后才可以烧写第三方固件，先要去 EMUI 官
   ![lineageos](/public/image/lineageos.png)  
 
 ### GApps
-* 如果想要使用谷歌框架，就需要刷入 [Open GApps](http://opengapps.org/)。ARM64，Android 7.1，然后选择一个喜欢的 Variant，在 Wiki 上有不同 Variant 之间的[区别](https://github.com/opengapps/opengapps/wiki/Package-Comparison)。我选择的是 nano 版，主要包含 Play Store 和在 Play Store 中下载不到的内容。
-* `adb reboot recovery`进入 TWRP，然后`adb push open_gapps-arm64-7.1-nano-20180306.zip /sdcard/`将下载好的 zip 包发送到手机，在 Install 中选择安装，完成后重启系统，就可以在 Play Store 中下载需要的应用了。
+* 如果想要使用谷歌框架，就需要刷入 [Open GApps](http://opengapps.org/)。ARM64，Android 7.1，然后选择一个喜欢的 Variant，在 Wiki 上有不同 Variant 之间的[区别](https://github.com/opengapps/opengapps/wiki/Package-Comparison)。我选择的是 pico 版，只有最基础的内容。
+* `adb reboot recovery`进入 TWRP，然后`adb push open_gapps-arm64-7.1-pico-20180311.zip /sdcard/`将下载好的 zip 包发送到手机，在 Install 中选择安装，完成后重启系统，就可以在 Play Store 中下载需要的应用了。
 
 ### Weather
 * 尝试在桌面小部件的 cLock 里显示天气时，在天气来源中找不到天气提供商。Lineage OS 默认是没有内置的，但是在其官网的 [Extras 下载页](https://download.lineageos.org/extras)可以找到 Weather Providers 栏，提供了三个 apk，下载其中一个安装到手机，cLock 就可以在你设置完地区之后显示天气了。我选择的是雅虎天气，即 YahooWeatherProvider.apk。
