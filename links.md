@@ -15,3 +15,4 @@ title: Links
 * [Music](http://music.whoisnian.com) : Search your favorite music.
 * [Paste](http://paste.whoisnian.com) : Paste your code freely.
 * [Baidu](http://baidu.whoisnian.com) : Simply search. (better on mobile phone)
+* [ScrToQQ](http://scrtoqq.whoisnian.com) : Share screenshots to QQ easily.
