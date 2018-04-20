@@ -53,7 +53,9 @@ Honor 8 解锁 bootloader 后才可以烧写第三方固件，先要去 EMUI 官
   * `fastboot oem unlock XXXXXXXXXXXXXXXX`
   * `adb reboot bootloader`
   * `fastboot flash recovery twrp-3.1.1-1-frd.img`
-  * `fastboot reboot`
+  * `fastboot reboot`  
+
+**注：刷入`update.zip`过程中系统可能自动重启，若自动重启，需要在再次解锁 bootloader 和刷入 TWRP 后刷入`update_data_full_hw_eu.zip`。**
 
 ### Lineage OS
 * 刚开始尝试直接刷入 [lineage-14.1-20170629](https://forum.xda-developers.com/honor-8/development/rom-lineageos-14-1-honor-8-t3615506)，结果开机后读不出 SIM 卡，检查可能是基带版本有问题。在论坛的[回复](https://forum.xda-developers.com/honor-8/development/rom-t3521731/post72130396#post72130396)里看到有说先刷低版本，再往上刷的，尝试之后成功了。
