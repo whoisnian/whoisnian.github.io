@@ -6,7 +6,8 @@ categories: Others
 
 > 一直想在自己手机上体验一下原生安卓，很久之前就看上了 [Lineage OS](https://lineageos.org/)。  
 > 然而手中的 Honor 8 并没有 Lineage OS 的[官方支持](https://wiki.lineageos.org/devices/)，在[XDA论坛](https://forum.xda-developers.com/)上找到的 [Unofficial 版本](https://forum.xda-developers.com/honor-8/development/rom-lineageos-14-1-honor-8-t3615506)据说是用于海外版本的 EMUI，国内的 Honor 8 由于某些底层问题而不能直接刷，所以就一直没动手。  
-> 趁着刚开学的空闲时间比较多，就尝试着刷了一下 Lineage OS 14.1。
+> 趁着刚开学的空闲时间比较多，就尝试着刷了一下 Lineage OS 14.1。  
+> **注：华为对所有 2018 年 5 月 24 日后新上市产品停止解锁码服务，已经上市产品自 2018 年 5 月 24 日起 60 天后停止解锁码服务。**
 
 <!-- more -->
 
