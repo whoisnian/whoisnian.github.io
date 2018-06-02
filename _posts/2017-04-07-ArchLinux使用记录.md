@@ -116,32 +116,6 @@ categories: ArchLinux
             </prefer>
         </alias>
 
-        <!-- 将宋体用文泉驿字体替换-->
-        <match target="pattern">
-            <test qual="any" name="family">
-                <string>宋体</string>
-            </test>
-            <edit name="family" mode="assign" binding="same">
-                <string>WenQuanYi Micro Hei</string>
-            </edit>
-        </match>
-        <match target="pattern">
-            <test qual="any" name="family">
-                <string>新宋体</string>
-            </test>
-            <edit name="family" mode="assign" binding="same">
-                <string>WenQuanYi Micro Hei</string>
-            </edit>
-        </match>
-        <match target="pattern">
-            <test qual="any" name="family">
-                <string>SimSun</string>
-            </test>
-            <edit name="family" mode="assign" binding="same">
-		  	    <string>WenQuanYi Micro Hei</string>
-            </edit>
-        </match>
-
     </fontconfig>
     ```
 
