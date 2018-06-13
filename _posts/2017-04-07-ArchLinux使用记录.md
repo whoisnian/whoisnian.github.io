@@ -80,44 +80,7 @@ categories: ArchLinux
   ```
 * office套装：  
   `$ sudo pacman -S wps-office ttf-wps-fonts`  
-  * 如果电脑上的`.docx`，`.xlsx`，`.pptx`文件被识别为`.zip`文件导致无法直接用wps打开，则需要先删除`/usr/share/mime/packages`下的几个`wps-office*.xml`文件：  
-    `$ sudo rm wps-office-*`  
-    然后更新mime数据：  
-    `$ sudo update-mime-database /usr/share/mime`  
-    接着打开office文件时只需要第一次选择打开方式，之后再次遇到office文件就会直接使用wps打开了。  
-  * 由于wps-office中包含宋体，而大多数应用程序将宋体作为默认字体，然后这些应用程序的字体就会变得特别不舒服。  
-    只在KDE的系统设置中修改字体选项不起作用，修改字体配置文件可以解决：  
-    `$ sudo vim /etc/fonts/local.conf`  
-    ```
-    <?xml version='1.0'?>
-    <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
-    <fontconfig>
-
-        <!--设置默认字体，英文用Hack字体，中文用文泉驿字体-->
-        <alias>
-            <family>serif</family>
-            <prefer>
-                <family>Hack</family>
-                <family>WenQuanYi Micro Hei</family>
-            </prefer>
-        </alias>
-        <alias>
-            <family>sans-serif</family>
-            <prefer>
-                <family>Hack</family>
-                <family>WenQuanYi Micro Hei</family>
-            </prefer>
-        </alias>
-        <alias>
-            <family>monospace</family>
-            <prefer>
-                <family>Hack</family>
-                <family>WenQuanYi Micro Hei Mono</family>
-            </prefer>
-        </alias>
-
-    </fontconfig>
-    ```
+  [这里](/2018/06/13/WPS-Office使用记录/)是我在ArchLinux上使用WPS Office时遇到的几个问题及解决方法。  
 
 ### 配置
 * vim  
