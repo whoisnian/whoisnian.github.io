@@ -70,6 +70,8 @@ categories: ArchLinux
   `$ sudo pacman -S bluez bluez-utils bluedevil`  
   使用时需要手动开启蓝牙服务：  
   `$ sudo systemctl start bluetooth.service`  
+* 连接 5 GHz WiFi 热点：  
+  `$ sudo pacman -S crda`
 * 输入法：  
   `$ sudo pacman -S fcitx kcm-fcitx fcitx-rime fcitx-im`  
   要想正常使用中文输入法，还需要在~/.xprofile中添加：  
