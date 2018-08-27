@@ -42,12 +42,15 @@ categories: ArchLinux
   `$ sudo cp example.json myconfig.json`  
   `$ sudo vim myconfig.json`  
   启动时执行`sudo systemctl start shadowsocks@myconfig`即可。  
+  系统网络设置中可以使用[gfwlist.pac](https://cdn.whoisnian.com/gfwlist.pac)自动配置代理。（使用[GenPAC](https://github.com/JinnLynn/genpac)每小时从[GFWList](https://github.com/gfwlist/gfwlist)更新一次）  
 * 音乐播放器：  
   `$ sudo pacman -S netease-cloud-music`  
 * 视频播放器：  
   `$ sudo pacman -S vlc`  
 * 图像查看器：  
   `$ sudo pacman -S gwenview`  
+* 图像编辑器：  
+  `$ sudo pacman -S gimp`
 * PDF阅读器：  
   `$ sudo pacman -S okular poppler-data`  
 * 压缩包管理器：  
@@ -71,9 +74,11 @@ categories: ArchLinux
   使用时需要手动开启蓝牙服务：  
   `$ sudo systemctl start bluetooth.service`  
 * 连接 5 GHz WiFi 热点：  
-  `$ sudo pacman -S crda`
+  `$ sudo pacman -S crda`  
+* 多线程下载：  
+  `$ sudo pacman -S axel`  
 * 输入法：  
-  `$ sudo pacman -S fcitx kcm-fcitx fcitx-rime fcitx-im`  
+  `$ sudo pacman -S kcm-fcitx fcitx-rime fcitx-im`  
   要想正常使用中文输入法，还需要在~/.xprofile中添加：  
   ```
   export GTK_IM_MODULE=fcitx  
@@ -89,5 +94,6 @@ categories: ArchLinux
 * fcitx-rime  
 * bash  
 * zsh  
+* font  
 
 Repo: [https://github.com/whoisnian/nian](https://github.com/whoisnian/nian)
