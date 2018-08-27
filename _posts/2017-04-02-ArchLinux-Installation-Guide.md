@@ -67,15 +67,15 @@ categories: ArchLinux
 * 打开要安装到的硬盘，并分区：  
   `# fdisk /dev/sda`  
   （bios可以正常分区，一个/，一个/home，一个/swap）  
-  （uefi需要为/boot单独分区，即一个/，一个/home，一个/swap，一个/boot，/boot 500M已经够大了）  
+  （uefi需要为/boot单独分区，即一个/，一个/home，一个/swap，一个/boot，/boot 550M已经够大了）  
   我的分区：  
   {% highlight default %}
   NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT  
   sda      8:0    0 111.8G  0 disk  
-  ├─sda1   8:1    0   500M  0 part /boot  
-  ├─sda2   8:2    0    50G  0 part /  
-  ├─sda3   8:3    0    55G  0 part /home  
-  └─sda4   8:4    0   6.3G  0 part [SWAP]  
+  ├─sda1   8:1    0   550M  0 part /boot  
+  ├─sda2   8:2    0    65G  0 part /  
+  ├─sda3   8:3    0    45G  0 part /home  
+  └─sda4   8:4    0   1.3G  0 part [SWAP]  
   {% endhighlight %}
 * 格式化/和/home分区为Ext4格式：  
   `# mkfs.ext4 /dev/sda2`  
@@ -88,7 +88,7 @@ categories: ArchLinux
   `# mount /dev/sda3 /mnt/home`  
   `# swapon /dev/sda4`  
 * 如果是UEFI启动，需要将/boot分区格式化为vfat格式并挂载：  
-  `# mkfs.vfat /dev/sda1`  
+  `# mkfs.fat -F32 /dev/sda1`  
   `# mkdir /mnt/boot`  
   `# mount /dev/sda1 /mnt/boot`  
 
@@ -163,7 +163,7 @@ categories: ArchLinux
   `# passwd nian`  
 * 设置 sudo 权限：  
   `# pacman -S sudo`  
-  `# visudo`  
+  `# nano /etc/sudoers`  
   在`root ALL=(ALL) ALL`下面一行添加`nian ALL=(ALL) ALL`，保存退出。  
 
 ### 安装桌面环境
@@ -171,9 +171,9 @@ categories: ArchLinux
   `# pacman -S xorg`  
 * 安装 KDE 环境：  
   最简单的 KDE 环境：  
-  `# pacman -S plasma-meta dolphin kate konsole sddm kde-l10n-zh_cn`  
+  `# pacman -S plasma-meta dolphin kate konsole sddm`  
   或者完整的 KDE 环境：  
-  `# pacman -S plasma kde-applications sddm kde-l10n-zh_cn`  
+  `# pacman -S plasma kde-applications sddm`  
 * 安装桌面网络管理器：  
   `# pacman -S networkmanager`  
 * 设置开机启动项：  
