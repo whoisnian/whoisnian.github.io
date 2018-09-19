@@ -58,7 +58,7 @@ categories: ArchLinux
 * 截屏工具：  
   `$ sudo pacman -S spectacle`  
 * Visual Studio Code:    
-  `$ sudo pacman -S visual-studio-code-bin`  
+  `$ sudo pacman -S code`  
 * TG桌面客户端：  
   `$ sudo pacman -S telegram-desktop`  
 * 相机：  
