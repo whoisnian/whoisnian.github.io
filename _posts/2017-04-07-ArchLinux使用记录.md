@@ -65,6 +65,8 @@ categories: ArchLinux
   `$ sudo pacman -S kamoso`  
 * 简单计算器：  
   `$ sudo pacman -S kcalc`  
+* Markdown 编辑器：  
+  `$ sudo pacman -S typora`  
 * 文本编辑器：  
   `$ sudo pacman -S gvim`  
   安装gvim主要是为了共享系统的剪切版和终端中vim的剪切版，还需要在.vimrc中添加：  
@@ -75,8 +77,12 @@ categories: ArchLinux
   `$ sudo systemctl start bluetooth.service`  
 * 连接 5 GHz WiFi 热点：  
   `$ sudo pacman -S crda`  
+* 网络共享：  
+  `$ sudo pacman -S dnsmasq`  
 * 多线程下载：  
   `$ sudo pacman -S axel`  
+* 录屏：  
+  `$ sudo pacman -S obs-studio`  
 * 输入法：  
   `$ sudo pacman -S kcm-fcitx fcitx-rime fcitx-im`  
   要想正常使用中文输入法，还需要在~/.xprofile中添加：  
