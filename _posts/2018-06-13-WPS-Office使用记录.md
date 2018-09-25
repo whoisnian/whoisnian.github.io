@@ -23,7 +23,7 @@ categories: ArchLinux
 * 虽然`ttf-wps-fonts`中已经包含了部分wps所需字体，但在直接打开微软office文件时依然会遇到各种字体问题，例如刚装完wps时打开包含宋体的word：  
   ![wps_no_simsun](/public/image/wps_no_simsun.png)  
   不仅字体不正常，而且word文件的格式也不正常。  
-  因此我手动从Windows上复制过来了系统目录下的Fonts文件夹，并将其内容放入`/usr/share/fonts/WindowsFonts`目录中，最后将该目录权限递归设置为755，再次打开同一个word文件看起来就正常多了：  
+  因此我手动从Windows上复制过来了系统目录下的Fonts文件夹，并将其内容放入`/usr/share/fonts/WindowsFonts`目录中，最后将该目录权限设置为与其它目录相同，再次打开同一个word文件看起来就正常多了：  
   ![wps_with_simsun](/public/image/wps_with_simsun.png)  
 
 ### 字体影响
@@ -59,6 +59,7 @@ categories: ArchLinux
       </alias>
   </fontconfig>
   ```
+  我当前使用的字体配置文件为[local.conf](https://github.com/whoisnian/nian/blob/master/local.conf)。  
 
 ### 主题影响
 * 使用过程中遇到问题，在KDE系统设置中选择暗色微风主题后，影响到了wps表格默认的背景色以及字体颜色。  
@@ -68,3 +69,4 @@ categories: ArchLinux
   偶然在wiki上看到wps条目下关于[使用 GTK+ UI](https://wiki.archlinux.org/index.php/WPS_Office_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E4.BD.BF.E7.94.A8_GTK.2B_UI)的说明。在系统设置中将GTK主题设置为亮色微风，然后修改`/usr/share/applications/wps-office-et.desktop`中的内容，将`Exec=/usr/bin/et %f`修改为`Exec=/usr/bin/et -style gtk+ %f`，wps在启动时就会使用设定的GTK主题，表格配色不受影响。而系统中大部分程序都还是使用的QT的暗色微风主题，可以接受。  
   修改完成后效果如下：  
   ![wps_et_with_style](/public/image/wps_et_with_style.png)  
+  wps最近更新后遇到doc文档中的宋体变灰色，也是同样的原因，加上`-style gtk+`即可。  
