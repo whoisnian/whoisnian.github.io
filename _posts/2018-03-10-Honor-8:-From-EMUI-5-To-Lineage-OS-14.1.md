@@ -47,7 +47,7 @@ Honor 8 解锁 bootloader 后才可以烧写第三方固件，先要去 EMUI 官
   > [http://update.hicloud.com:8180/TDS/d...ull/update.zip](http://update.hicloud.com:8180/TDS/data/files/p3/s15/G753/g104/v75675/f1/full/update.zip)  
   > [http://update.hicloud.com:8180/TDS/d...full_hw_eu.zip](http://update.hicloud.com:8180/TDS/data/files/p3/s15/G753/g104/v75675/f1/full/hw/eu/update_data_full_hw_eu.zip)  
 * `adb reboot recovery`进入 TWRP，通过`adb push update.zip /sdcard/`和`adb push update_data_full_hw_eu.zip /sdcard/`两个命令将下载好的海外版 EMUI ROM 传到手机 SD 卡根目录下。
-* 在 TWRP 的 Install 中选择`update.zip`刷入，然后不要重启，再选择`update_data_full_hw_eu.zip`刷入。
+* 在 TWRP 的 Install 中选择`update.zip`刷入，然后再选择`update_data_full_hw_eu.zip`刷入。
 * 两个 zip 都刷入之后重启手机，重启后在`设置 -> 关于手机`中可以看到 EMUI 版本由 5.0.1 变成了 5.0，版本号由 FRD-AL10C00B396 变成了 NRD90M test-keys，然后桌面上也多出了 Google 全家桶。根据版本号，此时还不是完整版本的海外 EMUI，但已经可以作为底包开始刷 Lineage OS 了。
 * 此时手机的 Recovery 变回了原来华为的，进入 bootloader 会发现 bootloader 也被重新锁定，所以需要再次解锁 bootloader 和刷入 TWRP：
   * `adb reboot bootloader`
@@ -56,12 +56,12 @@ Honor 8 解锁 bootloader 后才可以烧写第三方固件，先要去 EMUI 官
   * `fastboot flash recovery twrp-3.1.1-1-frd.img`
   * `fastboot reboot`  
 
-**注：刷入`update.zip`过程中系统可能自动重启，若自动重启，需要在再次解锁 bootloader 和刷入 TWRP 后刷入`update_data_full_hw_eu.zip`。**
+**注：刷入`update.zip`过程结束后系统可能自动重启，若自动重启，需要在再次解锁 bootloader 和刷入 TWRP 后刷入`update_data_full_hw_eu.zip`。**
 
 ### Lineage OS
 * 刚开始尝试直接刷入 [lineage-14.1-20170629](https://forum.xda-developers.com/honor-8/development/rom-lineageos-14-1-honor-8-t3615506)，结果开机后读不出 SIM 卡，检查可能是基带版本有问题。在论坛的[回复](https://forum.xda-developers.com/honor-8/development/rom-t3521731/post72130396#post72130396)里看到有说先刷低版本，再往上刷的，尝试之后成功了。
-* `adb reboot recovery`进入 TWRP，选择 Wipe 中的 Advanced Wipe，清理 Cache data System Vendor 四个分区。
-* `adb push lineage-14.1-20170304-UNOFFICIAL-frd.zip /sdcard/`传入 lineage-14.1-20170304，在 Install 中选中，进行安装，安装完成后 Reboot 到 System，20170304 版本是单 SIM 卡，但此时应该可以正常使用 SIM 卡 1，继续往上刷。
+* `adb reboot recovery`进入 TWRP，选择 Wipe 中的 Advanced Wipe，清理`Dalvik/ART Cache`和`Cache`两个分区，清理完毕后返回，选择 Wipe 中的 Format Data，输入 yes 后格式化 Data 分区。若出现红色报错信息，则在 Reboot Recovery 后再次尝试 Format Data，格式化成功后再次 Reboot Recovery，准备开始刷入 Lineage OS。
+* `adb push lineage-14.1-20170304-UNOFFICIAL-frd.zip /sdcard/`传入 lineage-14.1-20170304，在 Install 中选中，进行安装，安装完成后 Reboot 到 System。如果开机界面显示 Encryption unsuccessful，提示需要 reset phone，那么不要 reset phone，而是在连接 USB 的状态下同时长按关机键和音量+键，进入 Huawei eRecovery，这里会提示检测到 Data 分区损坏，选择 Format data partition，然后 Reboot，就能成功进入 Lineage OS 了。20170304 版本是单 SIM 卡，但此时应该可以正常使用 SIM 卡 1，接下来继续往上刷。
 * `adb reboot recovery`进入 TWRP，不需要 Wipe，然后`adb push lineage-14.1-20170411-UNOFFICIAL-frd.zip /sdcard/`，在 Install 中刷入 lineage-14.1-20170411，完成后 Reboot 到 System，依旧单 SIM。
 * `adb reboot recovery`进入 TWRP，不需要 Wipe，然后`adb push lineage-14.1-20170629-UNOFFICIAL-frd.zip /sdcard/`，在 Install 中刷入 lineage-14.1-20170629，完成后 Reboot 到 System，此时手机支持双 SIM，并且已经是当前的最新版本了。  
   ![lineageos](/public/image/lineageos.png)  
@@ -77,19 +77,21 @@ Honor 8 解锁 bootloader 后才可以烧写第三方固件，先要去 EMUI 官
 * 开启数据连接或 WiFi 时，状态栏图标旁边会显示一个 x 表示无网络连接，但是实际上可以正常上网:  
   ![network_x](/public/image/network_x.png)  
   这是由于原生安卓在开启数据连接或连接 WiFi 后，会访问 [www.google.com/generate_204](www.google.cn/generate_204) 根据 HTTP 响应码判断是否联网，同时判断是否需要登录，而由于“中国特色”，手机获取不到响应码，就会误以为是无网络连接，图标旁边显示一个 x，实际并不影响使用。  
-* 如果想要去掉这个 x 的话，可以使用 adb 工具把 www.google.com/generate_204 修改为 www.google.cn/generate_204，图标旁就不会出现 x 了。
+* 如果想要去掉这个 x 的话，可以使用 adb 工具把 www.google.com/generate_204 修改为 www.google.cn/generate_204，图标旁就不会出现 x 了。  
   `adb shell "settings put global captive_portal_http_url http://www.google.cn/generate_204"`  
   `adb shell "settings put global captive_portal_https_url https://www.google.cn/generate_204"`  
   修改完的效果：  
   ![network_ok](/public/image/network_ok.png)  
 
 ### Root  
-* 如果想要获取 Root 权限，可以使用 [SuperSU](http://www.supersu.com/) 进行，在[下载页面](http://www.supersu.com/download)下载最新版 V2.82 到电脑，然后就是熟悉的过程了，`adb reboot recovery`进入 TWRP，`adb push SuperSU-v2.82-201705271822.zip /sdcard/`发送 zip 到手机，在 Install 里选择安装，重启系统。手机上应该已经多出了 SuperSU 的应用。
+* ~~如果想要获取 Root 权限，可以使用 [SuperSU](http://www.supersu.com/) 进行，在[下载页面](http://www.supersu.com/download)下载最新版 V2.82 到电脑，然后就是熟悉的过程了，`adb reboot recovery`进入 TWRP，`adb push SuperSU-v2.82-201705271822.zip /sdcard/`发送 zip 到手机，在 Install 里选择安装，重启系统。手机上应该已经多出了 SuperSU 的应用。~~
+* 如果想要获取 Root 权限，可以使用 [Magisk](https://github.com/topjohnwu/Magisk) 进行，在[下载页面](https://github.com/topjohnwu/Magisk/releases)下载最新版到电脑，然后就是熟悉的过程了，`adb reboot recovery`进入 TWRP，`adb push Magisk-v17.1.zip /sdcard/`发送 zip 到手机，在 Install 里选择安装，重启系统。手机上开机后等待几分钟，应该已经多出了 Magisk Manager 的应用。
 
 ### 参考
 * [\[ROM\]\[New\]\[Unofficial\] OpenKirin's LineageOS 14.1 for Honor 8](https://forum.xda-developers.com/honor-8/development/rom-lineageos-14-1-honor-8-t3615506)  
 * [\[ROM\]\[7.1.x\]\[UNOFFICIALY\]\[LineageOS 14.1 For HONOR 8 \]\[Update 11/04/2017\]](https://forum.xda-developers.com/honor-8/development/rom-t3521731)  
 * [\[GUIDE\] Back to EMUI5 from custom roms](https://forum.xda-developers.com/honor-8/how-to/to-emui5-custom-roms-tested-openkirin-t3638445)  
+* [How to Install Magisk](https://www.xda-developers.com/how-to-install-magisk/)  
 * [【ROM】荣耀8LineageOS14稳定版来袭～～](http://tieba.baidu.com/p/5297266072)  
 * [【ROM】荣耀8国外版固件下载合集～](http://tieba.baidu.com/p/5264414806)  
 * [关于 V2EX 提供的 Android Captive Portal Server 地址的更新](https://www.v2ex.com/t/303889)  
