@@ -59,6 +59,8 @@ categories: ArchLinux
   `$ sudo pacman -S spectacle`  
 * Visual Studio Code:    
   `$ sudo pacman -S code`  
+* API测试工具：  
+  `$ sudo pacman -S postman-bin`
 * TG桌面客户端：  
   `$ sudo pacman -S telegram-desktop`  
 * 相机：  
@@ -91,6 +93,24 @@ categories: ArchLinux
   export QT_IM_MODULE=fcitx  
   export XMODIFIERS=@im=fcitx  
   ```
+* KDE应用程序风格（GTK）设置：  
+  `$ sudo pacman -S kde-gtk-config`  
+* KDE通知栏天气小部件：  
+  `$ sudo pacman -S plasma5-applets-weather-widget`  
+* KDE通知栏色温调节小部件：  
+  `$ sudo pacman -S plasma5-applets-redshift-control`  
+* KDE关闭按钮小部件：  
+  `$ sudo pacman -S plasma5-applets-active-window-control`  
+* 离线API文档：  
+  `$ sudo pacman -S zeal`  
+* 私有云：  
+  `$ sudo pacman -S nextcloud-client`  
+* 密码管理器：  
+  `$ sudo pacman -S keepassxc`  
+* 带有编码转换的unzip：  
+  `$ sudo pacman -S unzip-iconv`  
+* IP扫描工具：  
+  `$ sudo pacman -S nmap`  
 * office套装：  
   `$ sudo pacman -S wps-office ttf-wps-fonts`  
   [这里](/2018/06/13/WPS-Office使用记录/)是我在ArchLinux上使用WPS Office时遇到的几个问题及解决方法。  
