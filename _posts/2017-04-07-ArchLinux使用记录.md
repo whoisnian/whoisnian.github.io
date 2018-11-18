@@ -45,6 +45,7 @@ categories: ArchLinux
   系统网络设置中可以使用[gfwlist.pac](https://cdn.whoisnian.com/gfwlist.pac)自动配置代理。（使用[GenPAC](https://github.com/JinnLynn/genpac)每小时从[GFWList](https://github.com/gfwlist/gfwlist)更新一次）  
 * 音乐播放器：  
   `$ sudo pacman -S netease-cloud-music`  
+  参考[这里](https://forum.ubuntu.org.cn/viewtopic.php?f=74&t=484624)，在启动命令前加上`env XDG_CURRENT_DESKTOP=DDE`假装自己是Deepin，可解决KDE上网易云音乐托盘图标右键菜单无效的问题。
 * 视频播放器：  
   `$ sudo pacman -S vlc`  
 * 图像查看器：  
