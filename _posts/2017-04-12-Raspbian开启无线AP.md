@@ -8,27 +8,25 @@ categories: Raspberry
 
 <!-- more -->
 
+
+**注：本篇博客内容过于古老，推荐参考官方文档[Setting up a Raspberry Pi as an access point in a standalone network (NAT)](https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md)。**
+
 ### 安装软件  
 * 更新软件仓库：  
   `$ sudo apt-get update`  
   `$ sudo apt-get upgrade`  
 * 安装需要的软件：  
-  `$ sudo apt-get install hostapd dnsmasq`  
-* 删除默认无线客户端：  
-  `$ sudo apt-get remove wpasupplicant`  
+  `$ sudo apt-get install hostapd dnsmasq`    
 * 暂时关闭服务：  
   `$ sudo systemctl stop hostapd`  
   `$ sudo systemctl stop dnsmasq`  
-
 
 ### 设置转发
 * 允许IPv4转发：  
   `$ sudo vim /etc/sysctl.conf`  
   取消`net.ipv4.ip_forward=1`的注释。  
 * 开启IPv4转发：  
-  `$ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`  
-  `$ sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT`  
-  `$ sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT`  
+  `$ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`    
 * 保存转发配置：  
   `$ sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"`  
 * 设置开机时自动加载该配置：  
@@ -36,25 +34,17 @@ categories: Raspberry
   在`exit 0`前添加：  
   `iptables-restore < /etc/iptables.ipv4.nat`  
 
-### 配置静态IP
-* 禁止DHCP服务给wlan0分配IP：  
-  `$ sudo vim /etc/dhcpcd.conf`  
-  在文件末尾添加以下内容，但要保证在其它interface行之前：  
-  `denyinterfaces wlan0`  
+### 配置静态IP  
 * 设置wlan0静态IP：  
-  `$ sudo vim /etc/network/interfaces`  
-  将其中wlan0部分修改为：  
+  `$ sudo vim /etc/dhcpcd.conf`  
+  在文件末尾添加：  
   ```
-  allow-hotplug wlan0
-  iface wlan0 inet static
-      address 4.3.2.1
-      netmask 255.255.255.0
-      network 4.3.2.0
+  interface wlan0
+    static ip_address=4.3.2.1/24
+    nohook wpa_supplicant
   ```
-* 重启dhcpcd服务并刷新wlan0配置：  
-  `$ sudo systemctl restart dhcpcd`  
-  `$ sudo ifdown wlan0`  
-  `$ sudo ifup wlan0`  
+* 重启dhcpcd服务：  
+  `$ sudo systemctl restart dhcpcd`   
 
 ### 配置接入点参数
 * 编辑hostapd配置文件：  
@@ -66,15 +56,21 @@ categories: Raspberry
   ssid=Raspberry AP
   hw_mode=g
   channel=7
-  wmm_enabled=1
+  wmm_enabled=0
   macaddr_acl=0
   auth_algs=1
   ignore_broadcast_ssid=0
   wpa=2
   wpa_passphrase=12345678
   wpa_key_mgmt=WPA-PSK
+  wpa_pairwise=TKIP
   rsn_pairwise=CCMP
   ```
+  **注：hw_mode选项可为：**
+  * **a = IEEE 802.11a (5 GHz)**
+  * **b = IEEE 802.11b (2.4 GHz)**
+  * **g = IEEE 802.11g (2.4 GHz)**
+  * **ad = IEEE 802.11ad (60 GHz)**
 * 启用该配置文件：  
   `$ sudo vim /etc/default/hostapd`  
   找到 #DAEMON_CONF 一行，替换为：  
@@ -87,32 +83,14 @@ categories: Raspberry
 
 ### 配置DHCP服务
 * 配置本地DNS：  
-  `$ sudo vim /etc/dnsmasq.d/dns`  
+  `$ sudo vim /etc/dnsmasq.conf`  
   修改为：  
   ```
-  expand-hosts  
-  neg-ttl=60  
-  max-ttl=3600  
-  max-cache-ttl=3600  
-  localise-queries  
-  bogus-priv  
-  stop-dns-rebind  
-  rebind-localhost-ok  
-  domain-needed  
-  cache-size=4096  
-  domain=local,4.3.2.1/24,local  
-  ```
-* 配置本地DHCP：  
-  `$ sudo vim /etc/dnsmasq.d/dhcp`  
-  修改为：  
-  ```
-  no-dhcp-interface=eth0  
-  dhcp-range=lan,4.3.2.50,4.3.2.100  
-  dhcp-option=tag:lan,option:router,4.3.2.1  
-  dhcp-option=tag:lan,option:dns-server,4.3.2.1  
-  dhcp-broadcast=tag:needs-broadcast  
-  dhcp-authoritative  
-  dhcp-leasefile=/var/run/dnsmasq/dhcp.lease  
+  interface=wlan0  
+  dhcp-range=4.3.2.2,4.3.2.20,255.255.255.0,24h  
   ```
 * 重启服务：  
   `$ sudo systemctl restart dnsmasq`  
+
+### 重启树莓派
+* `$ sudo reboot`
