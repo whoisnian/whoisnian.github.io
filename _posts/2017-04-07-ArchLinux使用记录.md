@@ -112,6 +112,9 @@ categories: ArchLinux
   `$ sudo pacman -S unzip-iconv`  
 * IP扫描工具：  
   `$ sudo pacman -S nmap`  
+* KDE全局菜单：  
+  `$ sudo pacman -S appmenu-gtk-module libdbusmenu-glib`  
+  参考[这里](https://forum.manjaro.org/t/gtk-global-menu-in-plasma-5-13/42112)，全局菜单在KDE自带的小部件中就可以找到，但对于一些应用程序需要额外操作才可以正常显示。  
 * office套装：  
   `$ sudo pacman -S wps-office ttf-wps-fonts`  
   [这里](/2018/06/13/WPS-Office使用记录/)是我在ArchLinux上使用WPS Office时遇到的几个问题及解决方法。  
