@@ -43,6 +43,10 @@ categories: ArchLinux
   `$ sudo vim myconfig.json`  
   启动时执行`sudo systemctl start shadowsocks@myconfig`即可。  
   系统网络设置中可以使用[gfwlist.pac](https://cdn.whoisnian.com/gfwlist.pac)自动配置代理。（使用[GenPAC](https://github.com/JinnLynn/genpac)每小时从[GFWList](https://github.com/gfwlist/gfwlist)更新一次）  
+* socks转http代理：  
+  `$ sudo pacman -S privoxy`  
+* web缓存代理：  
+  `$ sudo pacman -S squid`  
 * 音乐播放器：  
   `$ sudo pacman -S netease-cloud-music`  
   参考[这里](https://forum.ubuntu.org.cn/viewtopic.php?f=74&t=484624)，在启动命令前加上`env XDG_CURRENT_DESKTOP=DDE`假装自己是Deepin，可解决KDE上网易云音乐托盘图标右键菜单无效的问题。
@@ -58,6 +62,8 @@ categories: ArchLinux
   `$ sudo pacman -S ark`  
 * 截屏工具：  
   `$ sudo pacman -S spectacle`  
+* 屏幕录制工具：  
+  `$ sudo pacman -S peek`  
 * Visual Studio Code:    
   `$ sudo pacman -S code`  
 * API测试工具：  
