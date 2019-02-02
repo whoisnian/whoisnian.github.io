@@ -74,3 +74,5 @@ categories: ArchLinux
   ![wps_wps_with_style](/public/image/wps_wps_with_style.png)  
   KDE桌面环境下，修改完毕后如果直接点击开始菜单项打开的WPS程序配色正常，但是点击关联文件打开的WPS程序配色不正常，则可能是受到了`系统设置 -> 色彩 -> 将颜色应用到非Qt应用程序`的影响，关闭此选项即可。
 
+### 文件对话框
+* 使用过程中发现选择文件的对话框打不开，例如在wps文字中选择打开本地文档，或者选择插入图片，点击按钮后均无反应。在虚拟终端中运行wps文字，点击需要打开对话框的按钮时可以看到有`Unexpected value after '--separate-output'.`的输出，以此为关键字进行搜索，发现了[这里](https://aur.archlinux.org/packages/wps-office/?setlang=es&O=60&PP=10)的评论区有谈到该问题，需要加入`WPS_NO_KDE_NATIVE_DIALOG=1`的环境变量。于是修改`/usr/share/applications/wps-office-*.desktop`的内容，在Exec行加上`env WPS_NO_KDE_NATIVE_DIALOG=1`即可。
