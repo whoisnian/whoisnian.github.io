@@ -21,8 +21,8 @@ categories: ArchLinux
   * 使用`sudo mkfs.ext4 /dev/sda4`对`/dev/sda4`进行格式化；  
   * 使用`sudo mount /dev/sda4 /mnt`将`/dev/sda4`挂载到`/mnt`。  
 * 在[PhoenixOS官网](http://www.phoenixos.com/download_x86)下载所需的iso镜像，然后解压并将其中的`initrd.img`，`kernel`，`ramdisk.img`，`system.sfs`拷贝到挂载的目录上。  
-  再使用`squashfs-tools`包中的`unsquashfs system.sfs`命令将`system.sfs`转换为`system.img`，**然后删除不再需要的**`system.sfs`。  
-  最后`makedir /mnt/data`创建数据文件夹。  
+  再使用`squashfs-tools`包中的`unsquashfs system.sfs`命令将`system.sfs`转换为`system.img`，然后复制出`system.img`，并删除不再需要的`system.sfs`。  
+  最后`mkdir /mnt/data`创建数据文件夹。  
 * 编辑`/etc/grub.d/40_custom`给`PhoenixOS`添加 GRUB 启动项，因为我的安卓分区在`/dev/sda4`，即第一块硬盘的第四分区，所以内容如下：  
   ```
   menuentry 'Phoenix OS' --class android-x86 {
