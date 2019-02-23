@@ -153,11 +153,11 @@ inline void deleteAll()
         delete list.takeFirst();
 }
 ```
-[QBoxLayoutPrivate](https://code.woboq.org/qt5/qtbase/src/widgets/kernel/qboxlayout.cpp.html#QBoxLayoutPrivate) 涉及到了 Qt 的 [D-Pointer](https://wiki.qt.io/D-Pointer)。简单来说，就是 QBoxLayout 把自己需要用到的数据结构放在了对应的 QBoxLayoutPrivate 中，QBoxLayout 中只保存类的各种方法和一个指向 QBoxLayoutPrivate 的指针，这样就可以保证在 Qt 更新时，底层的库虽然改变了，但编译的程序中对象的大小不变，不影响已编译程序的运行，从而实现二进制兼容。源码中常见的`Q_DECLARE_PUBLIC()`，`Q_DECLARE_PRIVATE()`，`Q_Q()`，`Q_D()`等宏定义均是与此有关，更多内容可以去了解 D-Pointer 的有关知识，这里只需要知道 QBoxLayout 的数据是存放在对应的 QBoxLayoutPrivate 中的就行了。 
+[QBoxLayoutPrivate](https://code.woboq.org/qt5/qtbase/src/widgets/kernel/qboxlayout.cpp.html#QBoxLayoutPrivate) 涉及到了 Qt 的 [D-Pointer](https://wiki.qt.io/D-Pointer)。简单来说，就是 QBoxLayout 把自己需要用到的数据结构放在了对应的 QBoxLayoutPrivate 中，QBoxLayout 中只保存类的各种方法和一个指向 QBoxLayoutPrivate 的指针，这样就可以保证在 Qt 更新时，底层的库虽然改变了，但编译的程序中对象的大小不变，不影响已编译程序的运行，从而实现二进制兼容。源码中常见的`Q_DECLARE_PUBLIC(), Q_DECLARE_PRIVATE(), Q_Q(), Q_D()`等宏定义均是与此有关，更多内容可以去了解 D-Pointer 的有关知识，这里只需要知道 QBoxLayout 的数据是存放在对应的 QBoxLayoutPrivate 中的就行了。 
 
 这里的 list 就是 QBoxLayoutPrivate 中的`QList<QBoxLayoutItem *> list;`，那接下来就去看看里面存的内容。  
 
-向 list 中加入内容的动作主要发生在向 QBoxLayout 中添加内容的时候，例如`addSpacing()`，`addStretch()`，`addSpacerItem()`，`addLayout()`，`addWidget()`几个函数，它们又都是调用的对应的`insertXXX()`函数，以[addSpacerItem()](https://code.woboq.org/qt5/qtbase/src/widgets/kernel/qboxlayout.cpp.html#_ZN10QBoxLayout13addSpacerItemEP11QSpacerItem)为例：
+向 list 中加入内容的动作主要发生在向 QBoxLayout 中添加内容的时候，例如`addSpacing(), addStretch(), addSpacerItem(), addLayout(), addWidget()`几个函数，它们又都是调用的对应的`insertXXX()`函数，以[addSpacerItem()](https://code.woboq.org/qt5/qtbase/src/widgets/kernel/qboxlayout.cpp.html#_ZN10QBoxLayout13addSpacerItemEP11QSpacerItem)为例：
 ```cpp
 void QBoxLayout::addSpacerItem(QSpacerItem *spacerItem)
 {
@@ -195,7 +195,7 @@ struct QBoxLayoutItem
 ```
 也就是说，创建 QBoxLayoutItem 对象时构造函数会把 QSpacerItem 的指针保存到它的 item 中，析构时则会调用 delete 进行释放，那么之前的`deleteAll()`函数就会释放 QHBoxLayout 中的 QSpacerItem 了。  
 
-其它的`insertSpacing()`，`insertStretch()`，`insertLayout()`也都是类似的处理，所以继承自 QLayoutItem 的类不属于 QObject，它们在被加入到 QBoxLayout 后，会随着 QBoxLayout 的 delete 而被释放，不需要手动进行释放。  
+其它的`insertSpacing(), insertStretch(), insertLayout()`也都是类似的处理，所以继承自 QLayoutItem 的类不属于 QObject，它们在被加入到 QBoxLayout 后，会随着 QBoxLayout 的 delete 而被释放，不需要手动进行释放。  
 
 那么还有一个[insertWidget()](https://code.woboq.org/qt5/qtbase/src/widgets/kernel/qboxlayout.cpp.html#_ZN10QBoxLayout12insertWidgetEiP7QWidgeti6QFlagsIN2Qt13AlignmentFlagEE)呢？它的里面也有一个`list.insert()`，为什么QWidget不会被 delete 呢？  
 ```cpp
