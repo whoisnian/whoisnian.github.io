@@ -61,7 +61,8 @@ categories: ArchLinux
 * 压缩包管理器：  
   `$ sudo pacman -S ark`  
 * 截屏工具：  
-  `$ sudo pacman -S spectacle`  
+  `$ sudo pacman -S spectacle`或  
+  `$ sudo pacman -S flameshot`  
 * 屏幕录制工具：  
   `$ sudo pacman -S peek`  
 * Visual Studio Code:    
@@ -79,11 +80,7 @@ categories: ArchLinux
 * 文本编辑器：  
   `$ sudo pacman -S gvim`  
   安装gvim主要是为了共享系统的剪切版和终端中vim的剪切版，还需要在.vimrc中添加：  
-  `set clipboard=unnamedplus`  
-* 蓝牙驱动：  
-  `$ sudo pacman -S bluez bluez-utils bluedevil`  
-  使用时需要手动开启蓝牙服务：  
-  `$ sudo systemctl start bluetooth.service`  
+  `set clipboard=unnamedplus`    
 * 连接 5 GHz WiFi 热点：  
   `$ sudo pacman -S crda`  
 * 网络共享：  
