@@ -153,6 +153,13 @@ categories: ArchLinux
   # grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub  
   # grub-mkconfig -o /boot/grub/grub.cfg  
   {% endhighlight %}
+* 如果在`grub-mkconfig`在这一步遇到了`Device /dev/xxx not initialized in udev database even after waiting 10000000 microseconds`的错误，则需要按照 ArchWiki 的[这里](https://wiki.archlinux.org/index.php/GRUB#Device_/dev/xxx_not_initialized_in_udev_database_even_after_waiting_10000000_microseconds)进行额外设置，注意要先退出 chroot 环境。  
+  ```
+  # mkdir /mnt/hostlvm
+  # mount --bind /run/lvm /mnt/hostlvm
+  # arch-chroot /mnt
+  # ln -s /hostlvm /run/lvm
+  ```
 * Win 10用户装双系统的话最好关闭快速启动，否则启动Win 10后，下次再启动电脑时有可能找不到grub引导项。（说多了都是泪啊TAT）
 
 ### 创建用户
