@@ -89,6 +89,8 @@ categories: ArchLinux
   `$ sudo pacman -S axel`  
 * 录屏：  
   `$ sudo pacman -S obs-studio`  
+* 有道词典命令行翻译工具：  
+  `$ sudo pacman -S ydcv`  
 * 输入法：  
   `$ sudo pacman -S kcm-fcitx fcitx-rime fcitx-im`  
   要想正常使用中文输入法，还需要在~/.xprofile中添加：  
@@ -105,6 +107,8 @@ categories: ArchLinux
   `$ sudo pacman -S plasma5-applets-redshift-control`  
 * KDE关闭按钮小部件：  
   `$ sudo pacman -S plasma5-applets-active-window-control`  
+* KDE日历小部件（AUR）：  
+  `$ sudo pikaur -S plasma5-applets-eventcalendar`  
 * 离线API文档：  
   `$ sudo pacman -S zeal`  
 * 私有云：  
