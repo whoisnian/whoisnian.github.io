@@ -66,10 +66,10 @@ categories: ArchLinux
   例如新创建一个表格后，配色为：  
   ![wps_et_no_style](/public/image/wps_et_no_style.png)  
   尝试发现KDE选择亮色主题就不会影响wps表格配色，但我还是更喜欢暗色微风。  
-  偶然在wiki上看到wps条目下关于[使用 GTK+ UI](https://wiki.archlinux.org/index.php/WPS_Office_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E4.BD.BF.E7.94.A8_GTK.2B_UI)的说明。在系统设置中将GTK主题设置为亮色微风，然后修改`/usr/share/applications/wps-office-et.desktop`中的内容，将`Exec=/usr/bin/et %f`修改为`Exec=/usr/bin/et -style gtk+ %f`，wps在启动时就会使用设定的GTK主题，表格配色不受影响。而系统中大部分程序都还是使用的QT的暗色微风主题，可以接受。  
+  偶然在wiki上看到wps条目下关于[使用 GTK+ UI](https://wiki.archlinux.org/index.php/WPS_Office_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E4.BD.BF.E7.94.A8_GTK.2B_UI)的说明。在系统设置中将GTK主题设置为亮色微风，然后修改`/usr/share/applications/wps-office-et.desktop`中的内容，将`Exec=/usr/bin/et %f`修改为`Exec=/usr/bin/et -style=gtk+ %f`，wps在启动时就会使用设定的GTK主题，表格配色不受影响。而系统中大部分程序都还是使用的QT的暗色微风主题，可以接受。  
   修改完成后效果如下：  
   ![wps_et_with_style](/public/image/wps_et_with_style.png)  
-  wps最近更新后遇到doc文档中的宋体变灰色，也是同样的原因，加上`-style gtk+`即可：  
+  wps最近更新后遇到doc文档中的宋体变灰色，也是同样的原因，加上`-style=gtk+`即可：  
   ![wps_wps_no_style](/public/image/wps_wps_no_style.png)  
   ![wps_wps_with_style](/public/image/wps_wps_with_style.png)  
   KDE桌面环境下，修改完毕后如果直接点击开始菜单项打开的WPS程序配色正常，但是点击关联文件打开的WPS程序配色不正常，则可能是受到了`系统设置 -> 色彩 -> 将颜色应用到非Qt应用程序`的影响，关闭此选项即可。
