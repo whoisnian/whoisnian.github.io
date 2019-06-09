@@ -109,6 +109,12 @@ categories: ArchLinux
   `$ sudo pacman -S plasma5-applets-active-window-control`  
 * KDE日历小部件（AUR）：  
   `$ sudo pikaur -S plasma5-applets-eventcalendar`  
+* 动态壁纸：  
+  `$ sudo pacman -S komorebi`  
+* 磁盘速度测试：  
+  `$ sudo pacman -S gnome-disk-utility`  
+* Windows启动盘制作工具：  
+  `$ sudo pacman -S woeusb-git`
 * 离线API文档：  
   `$ sudo pacman -S zeal`  
 * C语言变量定义解释：  
