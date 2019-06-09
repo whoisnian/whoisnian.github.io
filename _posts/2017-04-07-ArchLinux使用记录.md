@@ -111,6 +111,8 @@ categories: ArchLinux
   `$ sudo pikaur -S plasma5-applets-eventcalendar`  
 * 离线API文档：  
   `$ sudo pacman -S zeal`  
+* C语言变量定义解释：  
+  `$ sudo pacman -S cdecl`  
 * 私有云：  
   `$ sudo pacman -S nextcloud-client`  
 * 密码管理器：  
