@@ -30,7 +30,7 @@ categories: ArchLinux
 * 由于在系统中加入了宋体，而部分应用程序又将宋体作为默认字体，因此这些应用程序的字体就会变得特别不舒服。  
   只在KDE的系统设置中修改字体选项不起作用，手动修改字体配置文件可以解决：  
   `$ sudo vim /etc/fonts/local.conf`  
-  ```
+  ```xml
   <?xml version='1.0'?>
   <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
   <fontconfig>
