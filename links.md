@@ -7,7 +7,7 @@ title: Links
 * [VOID001's Blog](https://void-shana.moe)  
 * [2645 Laboratory](https://blog.cool2645.com)  
 * [DuckSoft’s Miscellanies](https://www.ducksoft.site/)  
-* ~~[梨子の遊園地](https://rikako.moe)~~
+* [梨园](https://blog.cool2645.com/Riko)  
 
 <hr/>
 
