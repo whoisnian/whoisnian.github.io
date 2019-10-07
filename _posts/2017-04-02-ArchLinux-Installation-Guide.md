@@ -105,7 +105,8 @@ categories: ArchLinux
   Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch  
   {% endhighlight %}
 * 安装基本系统：  
-  `# pacstrap /mnt base`  
+  `# pacstrap /mnt base linux`  
+  注：2019-10-06后仓库中的base软件包组被同名的软件包代替，只安装base软件包会比之前少很多东西，例如内核，nano编辑器等。（[Installation guide: Install the base packages](https://wiki.archlinux.org/index.php/Installation_guide#Install_the_base_packages)）  
 
 ### 配置系统  
 * 生成fstab文件，让系统启动的时候自动挂载分区：  
