@@ -8,6 +8,7 @@ title: Links
 * [2645 Laboratory](https://blog.cool2645.com)  
 * [DuckSoft’s Miscellanies](https://www.ducksoft.site/)  
 * [梨园](https://blog.cool2645.com/Riko)  
+* [墨笙的小站](https://rayfalling.com/)  
 
 <hr/>
 
