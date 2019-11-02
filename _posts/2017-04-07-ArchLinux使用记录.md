@@ -90,7 +90,7 @@ categories: ArchLinux
 * 录屏：  
   `$ sudo pacman -S obs-studio`  
 * 有道词典命令行翻译工具：  
-  `$ sudo pacman -S ydcv`  
+  `$ sudo pacman -S ydcv-rs-git`  
 * 输入法：  
   `$ sudo pacman -S kcm-fcitx fcitx-rime fcitx-im`  
   要想正常使用中文输入法，还需要在~/.xprofile中添加：  
