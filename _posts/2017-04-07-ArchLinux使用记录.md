@@ -65,8 +65,12 @@ categories: ArchLinux
   `$ sudo pacman -S flameshot`  
 * 屏幕录制工具：  
   `$ sudo pacman -S peek`  
+* 按键显示工具：  
+  `$ sudo pacman -S screenkey`  
 * Visual Studio Code:    
   `$ sudo pacman -S code`  
+* 中英文1:2字体：  
+  `$ sudo pacman -S ttf-ubuntu-font-family ttf-mplus`
 * API测试工具：  
   `$ sudo pacman -S postman-bin`
 * TG桌面客户端：  
@@ -103,12 +107,14 @@ categories: ArchLinux
   `$ sudo pacman -S kde-gtk-config`  
 * KDE通知栏天气小部件：  
   `$ sudo pacman -S plasma5-applets-weather-widget`  
-* KDE通知栏色温调节小部件：  
-  `$ sudo pacman -S plasma5-applets-redshift-control`  
+* ~~KDE通知栏色温调节小部件：~~（换用KDE内置功能）  
+  ~~`$ sudo pacman -S plasma5-applets-redshift-control`~~  
 * KDE关闭按钮小部件：  
   `$ sudo pacman -S plasma5-applets-active-window-control`  
 * KDE日历小部件（AUR）：  
-  `$ sudo pikaur -S plasma5-applets-eventcalendar`  
+  `$ pikaur -S plasma5-applets-eventcalendar`  
+* KDE网速显示小部件（AUR）：  
+  `$ pikaur -S plasma5-applets-netspeed`  
 * 动态壁纸：  
   `$ sudo pacman -S komorebi`  
 * 磁盘速度测试：  
