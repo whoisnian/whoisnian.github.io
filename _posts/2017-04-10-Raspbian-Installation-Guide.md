@@ -69,7 +69,7 @@ categories: Raspberry
 ### 基础配置
 * 进入配置界面：  
   `$ sudo raspi-config`  
-  ![raspi-config](/public/image/raspi-config.png)
+  ![raspi-config](/public/image/raspi-config.webp)
 * 选择1，修改默认密码。  
 * 选择4-I1，修改语言环境。  
 * 选择4-I2，修改时区。  

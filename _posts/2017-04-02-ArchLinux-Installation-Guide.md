@@ -38,9 +38,9 @@ categories: ArchLinux
 
 ### U盘启动  
 * 将U盘插入电脑，开机，按F12（不同主板可能会有所不同），选择从USB启动：  
-  ![archbios](/public/image/archbios.png)
+  ![archbios](/public/image/archbios.webp)
   （这是BIOS启动的选择界面）  
-  ![archuefi](/public/image/archuefi.png)
+  ![archuefi](/public/image/archuefi.webp)
   （这是UEFI启动的选择界面）  
 * 均选择第一项启动，加载成功后会出现：  
   `root@archiso ~ #`  

@@ -31,6 +31,6 @@ categories: Git
 
 ### GitHub
 * 进入自己repo的Webhooks设置页面，选择Add webhook，只需要在Payload URL栏填写上自己网站上刚创建的PHP文件的链接即可，例如`https://whoisnian.com/webhook.php`，其它的选项不需要更改，然后确认Add webhook。  
-  ![Webhooks](/public/image/Webhooks.png)
+  ![Webhooks](/public/image/Webhooks.webp)
 * 以后再次`git push`之后GitHub就会通过这个Webhook来自动更新服务器端对应的repo了，你也可以在Webhooks设置页面查看返回内容来确定服务器端是否运行正常。  
-  ![Webhooks_log](/public/image/Webhooks_log.png)
+  ![Webhooks_log](/public/image/Webhooks_log.webp)

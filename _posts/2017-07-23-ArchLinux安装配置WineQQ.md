@@ -53,7 +53,7 @@ categories: ArchLinux
   `$ winetricks corefonts cjkfonts`  
   （如果安装这些字体影响到了你的系统字体，请参考[ArchLinux使用记录](https://whoisnian.com/2017/04/07/ArchLinux%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/)中的字体配置文件用其他字体来替换宋体）  
 * 字体大小可以在winecfg中以下页面修改DPI进行调节：  
-  ![Wine-TIM-Font](/public/image/wine_font.png)
+  ![Wine-TIM-Font](/public/image/wine_font.webp)
 * 如果Wine中字体锯齿化严重或字体模糊，需要导入注册表进行修改：  
   ```
   REGEDIT4
@@ -78,11 +78,11 @@ categories: ArchLinux
   `$ winetricks riched20 riched30`    
 * 效果图：  
   * 登录界面：  
-  ![log-in](/public/image/wine_tim_show1.png)
+  ![log-in](/public/image/wine_tim_show1.webp)
   * 消息界面：  
-  ![message](/public/image/wine_tim_show2.png)
+  ![message](/public/image/wine_tim_show2.webp)
   * 托盘按钮：  
-  ![button](/public/image/wine_tim_bar.png)
+  ![button](/public/image/wine_tim_bar.webp)
 
 ### 已知问题
 * 记住密码与自动登录功能无法使用。  

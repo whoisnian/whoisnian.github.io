@@ -121,17 +121,17 @@ categories: Raspberry
 
 ### 测试
 * 真实网页：  
-  ![ipgw-T-https](/public/image/ipgw-T-https.png)
+  ![ipgw-T-https](/public/image/ipgw-T-https.webp)
 * 虚假网页：  
-  ![ipgw-F-http](/public/image/ipgw-F-http.png)
+  ![ipgw-F-http](/public/image/ipgw-F-http.webp)
 * 用户名输入：20160000  
   密码输入：2016abcd  
   点击连接网络，此时在树莓派的数据库中就可以看到：  
-  ![ipgw-test](/public/image/ipgw-test.png)
+  ![ipgw-test](/public/image/ipgw-test.webp)
 
 ### 总结
 * 实际上，由于本校的IP控制网关启用了https，这种DNS劫持的方法应该是没有实际意义的。  
-  ![ipgw-F-https](/public/image/ipgw-F-https.png)
+  ![ipgw-F-https](/public/image/ipgw-F-https.webp)
   在保存书签的时候，Chrome和Safari浏览器会默认保存为`https://ipgw.neu.edu.cn`；如果手动输网址，这两个浏览器也会自动补全为`https://ipgw.neu.edu.cn`。所以我本来对之后的实际测试是不抱任何希望的。  
   然而在将树莓派带到教室进行测试后，两节课之后数据库还是多了6名同学的数据。测试结束后我先删除了数据库数据，然后又分别向这6位同学发送邮件提醒其修改浏览器书签，顺便建议他们修改密码。  
   > 维基百科：  

@@ -64,7 +64,7 @@ Honor 8 解锁 bootloader 后才可以烧写第三方固件，先要去 EMUI 官
 * `adb push lineage-14.1-20170304-UNOFFICIAL-frd.zip /sdcard/`传入 lineage-14.1-20170304，在 Install 中选中，进行安装，安装完成后 Reboot 到 System。如果开机界面显示 Encryption unsuccessful，提示需要 reset phone，那么不要 reset phone，而是在连接 USB 的状态下同时长按关机键和音量+键，进入 Huawei eRecovery，这里会提示检测到 Data 分区损坏，选择 Format data partition，然后 Reboot，就能成功进入 Lineage OS 了。20170304 版本是单 SIM 卡，但此时应该可以正常使用 SIM 卡 1，接下来继续往上刷。
 * `adb reboot recovery`进入 TWRP，不需要 Wipe，然后`adb push lineage-14.1-20170411-UNOFFICIAL-frd.zip /sdcard/`，在 Install 中刷入 lineage-14.1-20170411，完成后 Reboot 到 System，依旧单 SIM。
 * `adb reboot recovery`进入 TWRP，不需要 Wipe，然后`adb push lineage-14.1-20170629-UNOFFICIAL-frd.zip /sdcard/`，在 Install 中刷入 lineage-14.1-20170629，完成后 Reboot 到 System，此时手机支持双 SIM，并且已经是当前的最新版本了。  
-  ![lineageos](/public/image/lineageos.png)  
+  ![lineageos](/public/image/lineageos.webp)  
 
 ### GApps
 * 如果想要使用谷歌框架，就需要刷入 [Open GApps](http://opengapps.org/)。ARM64，Android 7.1，然后选择一个喜欢的 Variant，在 Wiki 上有不同 Variant 之间的[区别](https://github.com/opengapps/opengapps/wiki/Package-Comparison)。我选择的是 pico 版，只有最基础的内容。
@@ -75,13 +75,13 @@ Honor 8 解锁 bootloader 后才可以烧写第三方固件，先要去 EMUI 官
 
 ### 无网络连接
 * 开启数据连接或 WiFi 时，状态栏图标旁边会显示一个 x 表示无网络连接，但是实际上可以正常上网:  
-  ![network_x](/public/image/network_x.png)  
+  ![network_x](/public/image/network_x.webp)  
   这是由于原生安卓在开启数据连接或连接 WiFi 后，会访问 [www.google.com/generate_204](www.google.cn/generate_204) 根据 HTTP 响应码判断是否联网，同时判断是否需要登录，而由于“中国特色”，手机获取不到响应码，就会误以为是无网络连接，图标旁边显示一个 x，实际并不影响使用。  
 * 如果想要去掉这个 x 的话，可以使用 adb 工具把 www.google.com/generate_204 修改为 www.google.cn/generate_204，图标旁就不会出现 x 了。  
   `adb shell "settings put global captive_portal_http_url http://www.google.cn/generate_204"`  
   `adb shell "settings put global captive_portal_https_url https://www.google.cn/generate_204"`  
   修改完的效果：  
-  ![network_ok](/public/image/network_ok.png)  
+  ![network_ok](/public/image/network_ok.webp)  
 
 ### Root  
 * ~~如果想要获取 Root 权限，可以使用 [SuperSU](http://www.supersu.com/) 进行，在[下载页面](http://www.supersu.com/download)下载最新版 V2.82 到电脑，然后就是熟悉的过程了，`adb reboot recovery`进入 TWRP，`adb push SuperSU-v2.82-201705271822.zip /sdcard/`发送 zip 到手机，在 Install 里选择安装，重启系统。手机上应该已经多出了 SuperSU 的应用。~~

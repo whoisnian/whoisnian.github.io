@@ -3,7 +3,7 @@ layout: page
 title: About
 ---
 
-<img src="/public/avatar.jpg" alt="nian" width="100px" height="100px" />
+<img src="/public/avatar.webp" alt="nian" width="100px" height="100px" />
  
 ## 1. Who is Nian?  
 

@@ -13,7 +13,7 @@ categories: Programming
 ## 从新建一个对话框开始
 使用 new 新建一个对象，然后通过返回的指针对其进行操作，这是在 Qt 中十分常见的写法。例如我想要创建一个这样的对话框，最开始的代码是这样的：
 
-![test_dialog](/public/image/test_dialog.png)
+![test_dialog](/public/image/test_dialog.webp)
 {: align="center"}
 
 ```cpp
@@ -124,7 +124,7 @@ dialogLayout->dumpObjectTree();
 ```
 程序输出如下：
 
-![dump_object_tree](/public/image/dump_object_tree.png)
+![dump_object_tree](/public/image/dump_object_tree.webp)
 {: align="center"}
 
 可以看到，QHBoxLayout 和 QPushButton 同级，并且 QHBoxLayout 的子节点为空，所以删除 QHBoxLayout 并不会影响到加入其中的 Widget，[QBoxLayout Class](https://doc.qt.io/qt-5/qboxlayout.html)中的析构函数也明确标明了：
@@ -269,7 +269,7 @@ qDebug() << "cancelButton   " << cancelButton;
 ```
 结果如下：
 
-![compare_item_pointer](/public/image/compare_item_pointer.png)
+![compare_item_pointer](/public/image/compare_item_pointer.webp)
 {: align="center"}
 
 加入的 QSpacerItem 属于 QLayoutItem，因此它被直接添加到了 QHBoxLayout 的 list 中，会随着 QHBoxLayout 的 delete 而被一同释放。剩下的两个 QPushButton 则属于 QWidget，list 中加入的是它们各自对应的 QWidgetItemV2，QHBoxLayout 被 delete 时它们不会受到影响。

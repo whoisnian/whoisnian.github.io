@@ -47,11 +47,11 @@ categories: ArchLinux
   **=====  一个没什么用的多图预警  =====**  
   （反正你看到这儿的时候图已经加载完了）  
 
-![PhoenixOS_1](/public/image/PhoenixOS_1.jpg)  
-![PhoenixOS_2](/public/image/PhoenixOS_2.jpg)  
-![PhoenixOS_3](/public/image/PhoenixOS_3.jpg)  
-![PhoenixOS_4](/public/image/PhoenixOS_4.jpg)  
-![PhoenixOS_5](/public/image/PhoenixOS_5.jpg)  
+![PhoenixOS_1](/public/image/PhoenixOS_1.webp)  
+![PhoenixOS_2](/public/image/PhoenixOS_2.webp)  
+![PhoenixOS_3](/public/image/PhoenixOS_3.webp)  
+![PhoenixOS_4](/public/image/PhoenixOS_4.webp)  
+![PhoenixOS_5](/public/image/PhoenixOS_5.webp)  
 
 **注：安装步骤主要是受到了XDA论坛上[Remix OS - Installation, ROOTing & more!](https://forum.xda-developers.com/remix/remix-os/remix-os-installation-rooting-t3293769)这篇教程的启示，然后踩了几个坑，又搜了一些东西才成功的**  
 
