@@ -68,7 +68,12 @@ Unattended-Upgrade::Package-Blacklist {
 };
 Unattended-Upgrade::DevRelease "false";
 ```
-在 Debian Wiki 上的 UnattendedUpgrades [这个页面](https://wiki.debian.org/UnattendedUpgrades)也只有一些简单介绍，但在`See Also`部分额外提到了`/usr/share/doc/unattended-upgrades/README.md.gz`，执行`gzip -dc /usr/share/doc/unattended-upgrades/README.md.gz`直接查看，这个`README.md`里对相关配置项的介绍还是比较详细的。测试服务器上`unattended-upgrades`的版本是 1.1，在 Github 上对应的`README.md`所在仓库是 [mvo5/unattended-upgrades](https://github.com/mvo5/unattended-upgrades)。  
+查找`unattended-upgrade`的配置说明，在 Debian Wiki 上的[这个页面](https://wiki.debian.org/UnattendedUpgrades)只找到了一些简单介绍，但在`See Also`部分额外提到了`/usr/share/doc/unattended-upgrades/README.md.gz`，执行`gzip -dc /usr/share/doc/unattended-upgrades/README.md.gz`直接查看文件内容，发现这个`README.md`里对相关配置项的介绍还是比较详细的，进一步搜索后在 Github 上也找到了对应的仓库，地址是 [mvo5/unattended-upgrades](https://github.com/mvo5/unattended-upgrades) 。  
 
+`README.md`中提到可以使用`apt-cache policy`查看相关 repository 的`o`and`a`两项，配置文件中`Unattended-Upgrade::Allowed-Origins`块就是一个`origin:archive`的列表，表示对应的 repository 启用了自动更新；`Unattended-Upgrade::Package-Blacklist`块是一个正则匹配的列表，表示要跳过更新的软件包；最后一个`Unattended-Upgrade::DevRelease`则表示在尚未发布正式 release 的 Ubuntu 上是否启用自动更新。
+
+https://github.com/mvo5/unattended-upgrades/blob/master/unattended-upgrade#L2065  
+http://security.ubuntu.com/ubuntu/pool/universe/d/distro-info/python-distro-info_0.18ubuntu0.18.04.1_all.deb  
+/usr/share/distro-info/ubuntu.csv
 
 ### To Be Continued...
