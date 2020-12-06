@@ -68,12 +68,82 @@ Unattended-Upgrade::Package-Blacklist {
 };
 Unattended-Upgrade::DevRelease "false";
 ```
-查找`unattended-upgrade`的配置说明，在 Debian Wiki 上的[这个页面](https://wiki.debian.org/UnattendedUpgrades)只找到了一些简单介绍，但在`See Also`部分额外提到了`/usr/share/doc/unattended-upgrades/README.md.gz`，执行`gzip -dc /usr/share/doc/unattended-upgrades/README.md.gz`直接查看文件内容，发现这个`README.md`里对相关配置项的介绍还是比较详细的，进一步搜索后在 Github 上也找到了对应的仓库，地址是 [mvo5/unattended-upgrades](https://github.com/mvo5/unattended-upgrades) 。  
+查找`unattended-upgrade`的配置说明，在 Debian Wiki 上的[这个页面](https://wiki.debian.org/UnattendedUpgrades)只找到了一些简单介绍，但在`See Also`部分额外提到了`/usr/share/doc/unattended-upgrades/README.md.gz`，执行`zless /usr/share/doc/unattended-upgrades/README.md.gz`直接查看文件内容，发现这个`README.md`里对相关配置项的介绍还是比较详细的，进一步搜索后在 Github 上也找到了对应的仓库，地址是 [mvo5/unattended-upgrades](https://github.com/mvo5/unattended-upgrades) 。  
 
-`README.md`中提到可以使用`apt-cache policy`查看相关 repository 的`o`and`a`两项，配置文件中`Unattended-Upgrade::Allowed-Origins`块就是一个`origin:archive`的列表，表示对应的 repository 启用了自动更新；`Unattended-Upgrade::Package-Blacklist`块是一个正则匹配的列表，表示要跳过更新的软件包；最后一个`Unattended-Upgrade::DevRelease`则表示在尚未发布正式 release 的 Ubuntu 上是否启用自动更新。
+`README.md`中提到可以使用`apt-cache policy`查看相关 repository 的`o`and`a`两项，配置文件中`Unattended-Upgrade::Allowed-Origins`块就是一个`origin:archive`的列表，表示对应的 repository 启用了自动更新；`Unattended-Upgrade::Package-Blacklist`块是一个正则匹配的列表，表示要跳过更新的软件包；最后一个`Unattended-Upgrade::DevRelease`则表示在尚未发布正式 release 的 Ubuntu 上是否启用自动更新。  
 
-https://github.com/mvo5/unattended-upgrades/blob/master/unattended-upgrade#L2065  
-http://security.ubuntu.com/ubuntu/pool/universe/d/distro-info/python-distro-info_0.18ubuntu0.18.04.1_all.deb  
-/usr/share/distro-info/ubuntu.csv
+关于`尚未发布正式 release 的 Ubuntu`，在`unattended-upgrades`的[源码](https://github.com/mvo5/unattended-upgrades/blob/master/unattended-upgrade#L2065)里可以看到依据的是`distro_info.UbuntuDistroInfo().devel(result="object")`，`distro_info`是一个 Python 软件包，从 Ubuntu 软件仓库中下载得到[源码](http://security.ubuntu.com/ubuntu/pool/universe/d/distro-info/python-distro-info_0.18ubuntu0.18.04.1_all.deb)后发现其依据的是`/usr/share/distro-info/ubuntu.csv`。最新版 Ubuntu 21.04 的 release date 是 2021-04-22，`Unattended-Upgrade::DevRelease`如果设为`auto`的话在 2021-04-01 才会开始自动更新。  
 
-### To Be Continued...
+执行`cat /etc/lsb-release`可以看到当前`Ubuntu 18.04.5 LTS`对应的`distro_id`是`Ubuntu`，对应的`distro_codename`是`bionic`，所以`apt-cache policy`显示的所有 repository 中除了`bionic-backports`，`bionic-updates`和自己添加的第三方 repository 外，都在每天自动更新的范围之内，不同更新类型的说明在 Ubuntu Wiki 上的[这个页面](https://help.ubuntu.com/community/UbuntuUpdates)有部分介绍。  
+
+回到 Mysql 这边，执行`apt policy mysql-server-5.7`得到：
+```
+mysql-server-5.7:
+  Installed: 5.7.32-0ubuntu0.18.04.1
+  Candidate: 5.7.32-0ubuntu0.18.04.1
+  Version table:
+ *** 5.7.32-0ubuntu0.18.04.1 500
+        500 https://opentuna.cn/ubuntu bionic-updates/main amd64 Packages
+        500 https://opentuna.cn/ubuntu bionic-security/main amd64 Packages
+        100 /var/lib/dpkg/status
+     5.7.21-1ubuntu1 500
+        500 https://opentuna.cn/ubuntu bionic/main amd64 Packages
+```
+可以看到其最新版`5.7.32-0ubuntu0.18.04.1`是同时属于`bionic-updates`和`bionic-security`的，而`bionic-security`被包含于`unattended-upgrade`的`Allowed-Origins`，所以每天的自动更新任务会更新到该版本。`sudo apt update && apt list --upgradable`查看当前需手动升级的软件包，也就是没有随着自动更新被一起升级的软件包，有`docker-ce`和`nodejs`，都是自己添加的第三方 repository；还有`grub-common`，执行`apt policy grub-common`得到：
+```
+grub-common:
+  Installed: 2.02-2ubuntu8.17
+  Candidate: 2.02-2ubuntu8.20
+  Version table:
+     2.02-2ubuntu8.20 500
+        500 https://opentuna.cn/ubuntu bionic-updates/main amd64 Packages
+ *** 2.02-2ubuntu8.17 500
+        500 https://opentuna.cn/ubuntu bionic-security/main amd64 Packages
+        100 /var/lib/dpkg/status
+     2.02-2ubuntu8 500
+        500 https://opentuna.cn/ubuntu bionic/main amd64 Packages
+```
+所以自动更新只把它更新到了`bionic-security`的最新版本`2.02-2ubuntu8.17`，`bionic-updates`由于不在`Allowed-Origins`内所以不会被升级到对应版本。手动降级后再主动执行`unattended-upgrade`进行测试：
+```bash
+sudo apt install grub-common=2.02-2ubuntu8      # downgrad to 2.02-2ubuntu8
+apt policy grub-common
+sudo unattended-upgrade --dry-run               # show what unattended-upgrade will do
+sudo unattended-upgrade                         # unattended-upgrade to 2.02-2ubuntu8.17
+apt policy grub-common
+sudo apt upgrade                                # upgrade to 2.02-2ubuntu8.20
+apt policy grub-common
+```
+结果与预期相符，自动更新只会更新到`bionic-security`对应的`2.02-2ubuntu8.17`，手动更新才能更新到`bionic-updates`对应的`2.02-2ubuntu8.20`。  
+
+手动降级`mysql-server-5.7`和`mysql-server-core-5.7`后再升回来，root用户的`authentication plugin`果然被重置回了`auth_socket`，搜索相关问题后在 Ubuntu 的 [Bug tracking](https://bugs.launchpad.net/ubuntu/+source/mysql-5.7/+bug/1571668) 找到了解答，关键性内容可以执行`zless /usr/share/doc/mysql-server-5.7/NEWS.Debian.gz`查看：
+> mysql-5.7 (5.7.13-1~exp1) experimental; urgency=medium
+> 
+> Password behaviour when the MySQL root password is empty has changed. Packaging now enables socket authentication when the MySQL root password is empty. This means that a non-root user can't log in as the MySQL root user with an empty password. The new logic is as follows:  
+> - The auth_socket plugin will be installed automatically only if it is to be activated for the root user.
+> - The auth_socket plugin will be activated for the root user:
+>   + If you had a database before with an empty root password.
+>   + If you create a new database with an empty root password.
+> - The auth_socket plugin will NOT be activated for the root user:
+>   + If you had a database before with a root password set.
+>   + If you create a new database with a root password set.
+> - The auth_socket plugin will NOT be activated for any other user.
+> - If you do not want the new behaviour, set the MySQL root password to be non-empty.
+
+问题很清晰了，Ubuntu 每日自动更新升级`mysql-server`时，Mysql 检查到当前 root 用户的密码为空，就改回了`auth_socket`。
+
+## 解决办法
+最开始发现问题是 Ubuntu 的每日自动更新导致的后，想直接把测试服务器上的自动更新禁用掉，毕竟在服务器上每天自动 upgrade 总是不太安心。但查完`unattended-upgrades`相关资料后就觉得这个自动更新还是很有必要的，而且配置文件里对更新类型有所限制，并不是简单地`apt upgrade`，为了保障服务器的安全还是选择把它留了下来。  
+
+那么问题该怎么解决呢？最安全的方法当然是给 root 用户指定非空密码，但那样就要去多个仓库里改涉及到的测试环境配置，为了方便我就选了另一条歪门邪道：首先创建`/etc/mysql/conf.d/mysql_empty_password.cnf`文件，在里面加上`init_file`项，然后指向一个 sql 文件，在 sql 文件中为 root 用户设置空密码。
+```bash
+sudo vim /etc/mysql/conf.d/mysql_empty_password.cnf
+# [mysqld]
+# init_file=/etc/mysql/conf.d/mysql_empty_password.sql
+
+sudo vim /etc/mysql/conf.d/mysql_empty_password.sql
+# ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
+```
+这样 Mysql 在每次启动时都会执行一遍`mysql_empty_password.sql`里的命令，升级后在下次启动时也会被改回空密码，仅用于测试服务器还是没什么问题的。
+
+## To Be Continued...
+对于服务器来说，Ubuntu 继承自 Debian 的`unattended-upgrades`还是十分有用的，配合包管理中区分出来的不同更新类型，可以实现自动升级安全补丁，关键更新等待人工干预。如果是 Arch Linux 的 pacman 的话，就没办法实现部分更新，自己的两台 Arch Linux 服务器大概两周左右会上去手动整体更新一遍，跟`unattended-upgrades`比还是低了一个档次。那么同样主要用于服务器的 CentOS 有没有类似的自动更新机制呢？和 Debian 比起来又孰强孰弱呢？
