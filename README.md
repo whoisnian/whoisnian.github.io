@@ -1,4 +1,6 @@
 # Blog of nian
+![Build and Publish](https://github.com/whoisnian/whoisnian.github.io/workflows/Build%20and%20Publish/badge.svg)  
+
 Address: [https://whoisnian.com](https://whoisnian.com)  
 
 ## Platform
