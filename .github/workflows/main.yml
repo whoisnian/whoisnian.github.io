@@ -32,7 +32,7 @@ jobs:
     - name: Jekyll build
       run: bundle exec jekyll build -d ./build
 
-    - name: Publish output
-      env:
-        RSYNC_PASSWORD: ${{ secrets.DEPLOY_KEY }}
-      run: rsync -crlpDhvz --delete --progress ./build/* ${{ secrets.DEPLOY_DST }}
+#     - name: Publish output
+#       env:
+#         RSYNC_PASSWORD: ${{ secrets.DEPLOY_KEY }}
+#       run: rsync -crlpDhvz --delete --progress ./build/* ${{ secrets.DEPLOY_DST }}
