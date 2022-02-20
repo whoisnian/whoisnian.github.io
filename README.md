@@ -4,6 +4,7 @@
 Address: [https://whoisnian.com](https://whoisnian.com)  
 
 ## Platform
+Cloudflare Pages: [https://pages.cloudflare.com/](https://pages.cloudflare.com/)  
 GitHub Pages: [https://pages.github.com/](https://pages.github.com/)  
 Jekyll: [https://jekyllrb.com/](https://jekyllrb.com/)  
 

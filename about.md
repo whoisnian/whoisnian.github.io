@@ -9,8 +9,8 @@ title: About
 
 > 当然就是我喽！  
 > 名字嘛，叫我念就好。  
-> 出生于1998年，目前就读于东北大学计算机科学与技术专业。  
-> 大四了，离毕业越来越近了，认识的好多人要么保研成功，要么拿到了大厂offer，自己和他们比还差的远啊。  
+> 出生于1998年，本科毕业于东北大学计算机科学与技术专业，毕业后就来到了墨刀并工作至今。  
+> 在墨刀这边的主要工作是后端加运维，日常接触 Node.js/Ruby/Golang，使用 Arch Linux 进行开发。  
 
 ## 2. Why is Nian?  
 
@@ -19,11 +19,11 @@ title: About
 
 ## 3. What does Nian like?  
 
-> 小说：科幻小说最喜欢《三体》和《基地三部曲》，玄幻小说最喜欢《雪中悍刀行》。 ~~虽然现在不怎么看了~~  
+> 小说：科幻小说最喜欢《三体》和《基地三部曲》，玄幻小说最喜欢《雪中悍刀行》。 ~~虽然现在没时间看了~~  
 
-> 折腾：服务器，网站，Arch，树莓派，还捡了一个斐讯N1盒子，好玩的东西可真不少！  
+> 折腾：电脑主机，服务器，网站，Arch，还捡了一个斐讯N1盒子，垃圾佬们那边似乎有很多好玩的东西。  
 
-> 动漫：偶尔看，追《RWBY》和~~万年不更的~~《罗小黑战记》。（[这里](https://cloud.whoisnian.com/index.php/s/3weBAYQLFgawCY5)有《RWBY》的四集预告片哦！）   
+> 动漫：追《RWBY》和~~万年不更的~~《罗小黑战记》，偶尔情绪低落的时候会翻出来《日常》和《妖精森林的小不点》之类的再刷一遍。  
 
 ## 4. How to contact Nian?  
 
@@ -34,6 +34,7 @@ title: About
 
 ## 5.How does Nian build this blog?  
 
+> Cloudflare Pages: [https://pages.cloudflare.com/](https://pages.cloudflare.com/)  
 > GitHub Pages: [https://pages.github.com/](https://pages.github.com/)  
 > Jekyll: [https://jekyllrb.com/](https://jekyllrb.com/)  
 > Hyde: [https://github.com/poole/hyde](https://github.com/poole/hyde)  

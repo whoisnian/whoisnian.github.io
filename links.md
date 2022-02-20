@@ -13,9 +13,5 @@ title: Links
 <hr/>
 
 ### My Other Sites
-* [Share](http://share.whoisnian.com) : A website to share files.
-* [Music](http://music.whoisnian.com) : Search your favorite music.
-* [Paste](http://paste.whoisnian.com) : Paste your code freely.
-* [Baidu](http://baidu.whoisnian.com) : Simply search. (better on mobile phone)
-* [ScrToQQ](http://scrtoqq.whoisnian.com) : Share screenshots to QQ easily.
-* [MyRecord](http://120.78.169.154:8000/) : Record my life.
+* [Share-Go](https://share.whoisnian.com:8020) : A website to share files (CN).
+* [GetMyIP](https://ip.whoisnian.com) : Get your IP address with Cloudflare Workers.
