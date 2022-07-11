@@ -435,11 +435,12 @@ func goGzip() string {
   * goGzip: body 中包含两个 block，第一个 block 使用固定霍夫曼编码压缩数据，第二个是 Close 操作新增的空白 block，被标记为 last block；
 
 ## conclusion
-* base64 的 `AAAA` 转成二进制后就是一串 0，Golang 这边调用 Flush 等价于 zlib.Z_SYNC_FLUSH，会新增一个无压缩的 block 用于对齐 bytes 边界，大量的 Flush 就会出现大量的 `AAAA`。
-* 如果数据压缩时有明确的结束时间，也不要求压缩后立即写入，那么等待结束时的 Close 对齐 bytes 即可，无需手动 Flush。
-* 如果将数据压缩用在了普通的网络连接上，既不确定连接什么时候结束，又期望压缩完一部分数据后能立即发送出去，那么在每次压缩完数据后都需要手动 Flush，因为基于字节流的 TCP 传输时需要完整的 bytes。
-* cliGzip 的 compressed blocks 中可以明显看到 `<length, distance>` 表明压缩生效，但 goGzip 的 compressed blocks 中没有看到预期效果，猜测是 Golang 增大了压缩字串的最小阈值。
-* 原始文本内容长度较短，且无明显规律，因此三种方式都是自动使用了固定霍夫曼编码压缩数据，动态霍夫曼编码会在 block 的 BTYPE 之后写入预生成的霍夫曼编码，解析时会比固定霍夫曼编码稍复杂。
+* base64 的 `AAAA` 转成二进制后就是一串 0，Golang 这边调用 Flush 等价于 zlib.Z_SYNC_FLUSH，会新增一个无压缩的空白 block 用于对齐 bytes 边界，重复调用 Flush 就会出现重复的 `AAAA`。
+* 如果数据压缩时有明确的结束时间，也不要求压缩后立即写入，例如压缩文件，那么等待结束时的 Close 对齐 bytes 即可，无需手动 Flush。
+* 如果将数据压缩用在了 TCP 连接上，既不确定连接什么时候结束，又期望压缩完一段数据后能立即发送出去，那么在每次压缩后都需要手动 Flush，因为基于字节流的 TCP 在传输时需要完整的 bytes。
+* cliGzip 的 compressed blocks 中可以明显看到 `<length, distance>` 组合表明压缩生效，但 goGzip 的 compressed blocks 中没有看到预期效果，猜测是 Golang 增大了压缩字串的最小阈值。
+* 原始数据内容长度较短，且无明显规律，因此三种方式都是自动使用了固定霍夫曼编码压缩数据。动态霍夫曼编码会在 block 的 BTYPE 之后写入预生成且优化过的霍夫曼编码，解析时会比固定霍夫曼编码稍复杂。
+* gzip 相当于是在 deflate 的基础上加了一层壳，并提供了多个 gzip 文件直接拼接的格式支持。单纯用来压缩数据的话并不需要保存原始文件信息，也就不需要这层壳了，因此开头部分提到的 json stream 直接使用 Golang 的 `compress/flate` 即可。
 
 ---
 ## reference
