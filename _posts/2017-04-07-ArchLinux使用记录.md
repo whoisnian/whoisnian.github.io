@@ -35,14 +35,6 @@ categories: ArchLinux
 * 网页浏览器：  
   `$ sudo pacman -S google-chrome`  
   `$ sudo pacman -S firefox firefox-i18n-zh-cn`  
-* 科学上网：  
-  `$ sudo pacman -S shadowsocks`  
-  然后复制默认配置文件并修改：  
-  `$ cd /etc/shadowsocks`  
-  `$ sudo cp example.json myconfig.json`  
-  `$ sudo vim myconfig.json`  
-  启动时执行`sudo systemctl start shadowsocks@myconfig`即可。  
-  系统网络设置中可以使用[gfwlist.pac](https://cdn.whoisnian.com/gfwlist.pac)自动配置代理。（使用[GenPAC](https://github.com/JinnLynn/genpac)每小时从[GFWList](https://github.com/gfwlist/gfwlist)更新一次）  
 * socks转http代理：  
   `$ sudo pacman -S privoxy`  
 * web缓存代理：  
@@ -61,14 +53,13 @@ categories: ArchLinux
 * 压缩包管理器：  
   `$ sudo pacman -S ark`  
 * 截屏工具：  
-  `$ sudo pacman -S spectacle`或  
-  `$ sudo pacman -S flameshot`  
+  `$ sudo pacman -S spectacle`  
 * 屏幕录制工具：  
   `$ sudo pacman -S peek`  
 * 按键显示工具：  
   `$ sudo pacman -S screenkey`  
 * Visual Studio Code:    
-  `$ sudo pacman -S code`  
+  `$ pikaur -S visual-studio-code-bin`  
 * 中英文1:2字体：  
   `$ sudo pacman -S ttf-ubuntu-font-family ttf-mplus`
 * API测试工具：  
@@ -79,8 +70,6 @@ categories: ArchLinux
   `$ sudo pacman -S kamoso`  
 * 简单计算器：  
   `$ sudo pacman -S kcalc`  
-* Markdown 编辑器：  
-  `$ sudo pacman -S typora`  
 * 文本编辑器：  
   `$ sudo pacman -S gvim`  
   安装gvim主要是为了共享系统的剪切版和终端中vim的剪切版，还需要在.vimrc中添加：  
@@ -96,7 +85,7 @@ categories: ArchLinux
 * 有道词典命令行翻译工具：  
   `$ sudo pacman -S ydcv-rs-git`  
 * 输入法：  
-  `$ sudo pacman -S kcm-fcitx fcitx-rime fcitx-im`  
+  `$ sudo pacman -S fcitx5-im fcitx5-chinese-addons fcitx5-pinyin-zhwiki`  
   要想正常使用中文输入法，还需要在~/.xprofile中添加：  
   ```
   export GTK_IM_MODULE=fcitx  
@@ -105,28 +94,14 @@ categories: ArchLinux
   ```
 * KDE应用程序风格（GTK）设置：  
   `$ sudo pacman -S kde-gtk-config`  
-* KDE通知栏天气小部件：  
-  `$ sudo pacman -S plasma5-applets-weather-widget`  
-* ~~KDE通知栏色温调节小部件：~~（换用KDE内置功能）  
-  ~~`$ sudo pacman -S plasma5-applets-redshift-control`~~  
-* KDE关闭按钮小部件：  
-  `$ sudo pacman -S plasma5-applets-active-window-control`  
-* KDE日历小部件（AUR）：  
-  `$ pikaur -S plasma5-applets-eventcalendar`  
-* KDE网速显示小部件（AUR）：  
-  `$ pikaur -S plasma5-applets-netspeed`  
-* 动态壁纸：  
-  `$ sudo pacman -S komorebi`  
+* KDE图标查看器（cuttlefish）：  
+  `$ sudo pacman -S plasma-sdk`  
 * 磁盘速度测试：  
   `$ sudo pacman -S gnome-disk-utility`  
 * Windows启动盘制作工具：  
   `$ sudo pacman -S woeusb-git`
-* 离线API文档：  
-  `$ sudo pacman -S zeal`  
 * C语言变量定义解释：  
   `$ sudo pacman -S cdecl`  
-* 私有云：  
-  `$ sudo pacman -S nextcloud-client`  
 * 密码管理器：  
   `$ sudo pacman -S keepassxc`  
 * 带有编码转换的unzip：  
@@ -139,12 +114,7 @@ categories: ArchLinux
 * office套装：  
   `$ sudo pacman -S wps-office ttf-wps-fonts`  
   [这里](/2018/06/13/WPS-Office使用记录/)是我在ArchLinux上使用WPS Office时遇到的几个问题及解决方法。  
-
-### 配置
-* vim  
-* fcitx-rime  
-* bash  
-* zsh  
-* font  
-
-Repo: [https://github.com/whoisnian/nian](https://github.com/whoisnian/nian)
+* 串口调试工具：  
+  `$ sudo pacman -S comtool`  
+* 音乐/视频刮削器：  
+  `$ sudo pacman -S picard mediaelch`  
