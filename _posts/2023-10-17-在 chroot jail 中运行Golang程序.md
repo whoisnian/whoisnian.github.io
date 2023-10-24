@@ -293,11 +293,67 @@ curl 127.0.0.1:8080/user
 ```
 
 ## 修复方案
+缺少的依赖一共有 `/etc/resolv.conf`，`ca-certificates`，`tzdata`，`/etc/passwd` 和 `/etc/group` 几项，对应的修复方案就是补全依赖。
+
 ### 手动初始化环境
-TODO: shell script
+尝试使用 `arch-install-scripts` 包提供的 `pacstrap -c ./new_root filesystem tzdata ca-certificates` 命令初始化 `new_root` 目录，结果得到的目录大小约 330MB，主要是 `ca-certificates-utils` 依赖了 `bash` 和 `coreutils`，再往上的依赖就越翻越多了。对比了几个发行版后发现 Alpine Linux 在其[下载页面](https://alpinelinux.org/downloads/)提供了 MINI ROOT FILESYSTEM 的选项，于是可以基于该镜像构建 chroot 环境：
+```sh
+# 下载并校验
+wget https://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86_64/alpine-minirootfs-3.18.4-x86_64.tar.gz
+sha256sum alpine-minirootfs-3.18.4-x86_64.tar.gz
+# c59d5203bc6b8b6ef81f3f6b63e32c28d6e47be806ba8528f8766a4ca506c7ba  alpine-minirootfs-3.18.4-x86_64.tar.gz
+
+# 解压并清理
+mkdir new_root
+tar -xvf alpine-minirootfs-3.18.4-x86_64.tar.gz -C ./new_root
+rm alpine-minirootfs-3.18.4-x86_64.tar.gz
+
+# 补充 /etc/resolv.conf
+echo 'nameserver 223.5.5.5' > ./new_root/etc/resolv.conf
+
+# 修改文件系统权限
+sudo chown -R root:root ./new_root
+
+# 更新系统并补充 tzdata
+sudo chroot ./new_root /sbin/apk upgrade --update-cache --no-cache
+sudo chroot ./new_root /sbin/apk add tzdata --no-cache
+
+# 在 chroot 环境中运行
+sudo chroot ./new_root /main
+```
+最终的 `new_root` 目录大小约 13MB，使用 `curl` 请求各个接口均正常响应。
 
 ### 容器化 distroless
-TODO: https://github.com/GoogleContainerTools/distroless
+之前查 kubernetes 相关资料时还找到过一类叫 [distroless](https://github.com/GoogleContainerTools/distroless) 的镜像，主要目的就是针对编程语言优化运行环境，去除大量 Linux 系统通用组件，很符合当前需求。因此可以使用 distroless 作为基础镜像来构建应用镜像，顺便借助容器化实现更加完善的运行环境隔离：
+```dockerfile
+# syntax=docker.io/docker/dockerfile:1.6
+
+FROM golang:1.21-alpine AS build
+
+WORKDIR /app
+COPY . .
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    --mount=type=cache,target=/go/pkg/mod \
+  CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" main.go
+
+FROM gcr.io/distroless/static-debian12:latest
+COPY --from=build /app/main /
+ENTRYPOINT ["/main"]
+```
+Dockerfile 主要参考了 [moby/moby](https://github.com/moby/moby/blob/master/Dockerfile) 和 [Dreamacro/clash](https://github.com/Dreamacro/clash/blob/master/Makefile) 的部分代码，其中 `RUN --mount` 指令的支持涉及到 BuildKit 的 [Dockerfile frontend](https://docs.docker.com/build/dockerfile/frontend/)，不同版本的区别可以参考 [Dockerfile release notes](https://docs.docker.com/build/dockerfile/release-notes/)。构建镜像并运行服务：
+```sh
+# 目录结构示例：
+# .
+# ├── Dockerfile
+# └── main.go
+
+DOCKER_BUILDKIT=1 docker build --tag whoisnian/distroless-test:0.0.1 .
+# whoisnian/distroless-test:0.0.1  7d1dd55a78d8  7.1MB
+
+docker run --rm --net=host docker.io/whoisnian/distroless-test:0.0.1
+# Service started at 127.0.0.1:8080
+```
+最终的应用镜像大小约 7.1MB，其中二进制文件大小约 5.1MB，使用 `curl` 请求各个接口均正常响应。
 
 ---
 ### 注：
