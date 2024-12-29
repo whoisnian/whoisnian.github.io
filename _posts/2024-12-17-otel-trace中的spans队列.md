@@ -30,7 +30,7 @@ jaeger 服务端分别使用 `jaeger-collector:1.64.0` 和 `jaeger:2.1.0`，存�
 模拟环境不再保留实际的请求路径，从测试环境手动复制 span 信息，使用 goroutine 创建多个 worker 并行写入。相关的 jaeger 部署配置和 golang 代码如下：  
 
 {::options parse_block_html="true" /}
-<details><summary markdown="span">compose.yaml</summary>
+<details><summary markdown="span" style="cursor:pointer;background-color:#f9f9f9;">compose.yaml</summary>
 
 ```yaml
 name: jaeger
@@ -109,7 +109,7 @@ volumes:
 ```
 </details>
 
-<details><summary markdown="span">jaeger-config.yaml</summary>
+<details><summary markdown="span" style="cursor:pointer;background-color:#f9f9f9;">jaeger-config.yaml</summary>
 
 ```yaml
 # https://github.com/jaegertracing/jaeger/blob/v2.1.0/cmd/jaeger/config-badger.yaml
@@ -190,7 +190,7 @@ exporters:
 ```
 </details>
 
-<details><summary markdown="span">main.go</summary>
+<details><summary markdown="span" style="cursor:pointer;background-color:#f9f9f9;">main.go</summary>
 
 ```go
 package main
@@ -203,6 +203,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/go-logr/stdr"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
@@ -214,6 +215,7 @@ import (
 )
 
 var CFG struct {
+	Debug    bool
 	Workers  int
 	Traces   int
 	Service  string
@@ -221,6 +223,7 @@ var CFG struct {
 }
 
 func init() {
+	flag.BoolVar(&CFG.Debug, "debug", false, "Enable debug output")
 	flag.IntVar(&CFG.Workers, "workers", 1, "Number of workers (goroutines)")
 	flag.IntVar(&CFG.Traces, "traces", 1, "Number of traces for each worker")
 	flag.StringVar(&CFG.Service, "service", "oteltrace", "Service name")
@@ -229,6 +232,10 @@ func init() {
 }
 
 func main() {
+	if CFG.Debug {
+		stdr.SetVerbosity(8)
+	}
+
 	exporter, err := otlptracehttp.New(context.Background(), otlptracehttp.WithEndpointURL(CFG.Endpoint))
 	panicIf(err)
 
@@ -355,8 +362,44 @@ var (
 
 ## 原因分析
 ### 源码实现
-TODO：单个 span 从创建到保存的完整流程是什么样的，丢弃行为具体发生在哪里
+#### OpenTelemetry SDK
+根据文档 [Migration to OpenTelemetry SDK](https://www.jaegertracing.io/sdk-migration/)，Jaeger client 在 2022 年就已经被停用，并推荐迁移到 OpenTelemetry SDK。在 1.64.0 版本的文档中也已经[清理了](https://github.com/jaegertracing/documentation/pull/788) Jaeger client 的相关说明。  
+模拟环境的 OpenTelemetry SDK 接入代码主要参考 [OpenTelemetry-Go: Getting Started](https://opentelemetry.io/docs/languages/go/getting-started/)，整体可以分为 **初始化 SDK** 和 **提交 span** 两部分，具体实现为：  
+* **初始化 SDK：**
+  * 初始化 exporter 负责向服务端 HTTP 接口发送 [protobuf](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/exporters/otlp/otlptrace/otlptracehttp/client.go#L127) 格式的 spans
+  * 初始化 resource 记录自身作为上报者的[识别信息](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/resource/resource.go#L222)
+  * 使用 exporter 初始化 BatchSpanProcessor，再使用 BatchSpanProcessor 和 resource 初始化 TracerProvider，并保存至全局
+* **提交 span：**
+  * 从全局获取 TracerProvider 创建 Tracer，再使用 Tracer 创建 span，在 span 上记录信息并提交。span 的创建和提交操作会调用 BatchSpanProcessor 的 `OnStart()` 和 `OnEnd()`
+  * BatchSpanProcessor 的 [OnStart](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L125) 不包含任何处理逻辑，而 [OnEnd](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L128) 则会调用 [enqueue](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L366) 函数，根据配置项 [BlockOnQueueFull](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L57) 的不同，队列满时可以阻塞等待直至队列出现空位，也可以直接丢弃并将 [dropped](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L67) 计数器加一
+  * BatchSpanProcessor 在创建时就会启动一个单独的 goroutine 来执行 [processQueue](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L117) 监听队列，并按照设定的 [BatchTimeout](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L40) 或 [MaxExportBatchSize](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L51) 来触发 [exportSpans](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L263)，再往下会调用到 exporter 的 [ExportSpans](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L277)，将 spans 实际发送出去
+
+在 [batchSpanProcessor.exportSpans](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L263) 的源码中看到有额外的 Debug 日志，对应的 logger 实现使用了 [stdr.New](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/internal/global/internal_logging.go#L21)，查找[相关文档](https://pkg.go.dev/github.com/go-logr/stdr)后在代码中提前设置 `stdr.SetVerbosity(8)` 即可正常输出日志。  
+开启 Debug 日志后再次执行测试，发现服务端使用 1.64.0 版本时 client 端确实未出现 spans 丢弃，而服务端切换为 2.1.0 版本后则在 client 端发生了 spans 丢弃。  
+
+#### Jaeger v1
+旧版 `jaeger-collector:1.64.0` 的程序入口在 [cmd/collector/main.go](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/main.go)，主要功能由 jaeger 自行实现，重点关注的部分为：
+* metrics
+  * `jaeger_collector_spans_dropped_total` 初始化于 [NewSpanProcessorMetrics](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/metrics.go#L125)，实际使用是在 [NewSpanProcessor](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L58) 创建 [BoundedQueue](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L91) 时，作为 [droppedItemHandler](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L85) 传入
+  * `jaeger_collector_spans_received_total` 初始化于 [NewSpanProcessorMetrics](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/metrics.go#L117)，实际使用是在 [ProcessSpans](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L167) 中执行了 [enqueueSpan](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L219)，但尚未提交至 [BoundedQueue](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L236) 之前
+  * `jaeger_collector_spans_saved_by_svc_total` 初始化于 [NewSpanProcessorMetrics](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/metrics.go#L130)，实际使用是在 [BoundedQueue](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L65) 的异步消费 [processItemFromQueue](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L191)，进一步调用到 [processSpan](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L127) 中的 [saveSpan](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L138) 时
+* spans 接收
+* spans 发送
+
+#### Jaeger v2
+新版 `jaeger:2.1.0` 的程序入口在 [cmd/jaeger/main.go](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/main.go)，主要功能来自 [go.opentelemetry.io/collector](https://pkg.go.dev/go.opentelemetry.io/collector)，重点关注的部分为：
+* metrics
+  * `otelcol_receiver_accepted_spans`
+  * `otelcol_exporter_sent_spans`
+* spans 接收
+* spans 发送
+
 ### 功能设置
-TODO：2.1.0 版本能否获取到 spans 的完整指标，spans 能否设置为禁止丢弃
+TODO:   
+* 从前面的源码分析中得知服务端使用 2.1.0 版本时是 client 丢弃，因此 server 端不知道实际的 spans 数量，完整数据需要在 client 端进行统计  
+* 例如补充一个自定义 SpanProcessor 用于统计 spans 总数，封装一层 exporter 统计实际发送的 spans 数量，计算两者差值可以得到实际的丢弃数量  
+* v2 版本直接在 client 端设置 BlockOnQueueFull 可以实现禁止丢弃  
+* v1 版本未找到队列行为参数设置，还需要修改服务端源码才可以实现禁止丢弃  
+
 ## 拓展
-TODO：自动丢弃队列的功能实现及状态维护
+TODO: [BoundedQueue](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/pkg/queue/bounded_queue.go)
