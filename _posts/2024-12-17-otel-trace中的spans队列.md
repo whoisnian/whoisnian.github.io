@@ -361,8 +361,7 @@ var (
 |     2.1.0      |   18s    |   240000*   |   232106    |     7894*     |      3.29%      |
 
 ## 原因分析
-### 源码实现
-#### OpenTelemetry SDK
+### OpenTelemetry SDK
 根据文档 [Migration to OpenTelemetry SDK](https://www.jaegertracing.io/sdk-migration/)，Jaeger client 在 2022 年就已经被停用，并推荐迁移到 OpenTelemetry SDK。在 1.64.0 版本的文档中也已经[清理了](https://github.com/jaegertracing/documentation/pull/788) Jaeger client 的相关说明。  
 模拟环境的 OpenTelemetry SDK 接入代码主要参考 [OpenTelemetry-Go: Getting Started](https://opentelemetry.io/docs/languages/go/getting-started/)，整体可以分为 **初始化 SDK** 和 **提交 span** 两部分，具体实现为：  
 * **初始化 SDK：**
@@ -377,7 +376,7 @@ var (
 在 [batchSpanProcessor.exportSpans](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/sdk/trace/batch_span_processor.go#L263) 的源码中看到有额外的 Debug 日志，对应的 logger 实现使用了 [stdr.New](https://github.com/open-telemetry/opentelemetry-go/blob/bc2fe88756962b76eb43ea2fd92ed3f5b6491cc0/internal/global/internal_logging.go#L21)，查找[相关文档](https://pkg.go.dev/github.com/go-logr/stdr)后在代码中提前设置 `stdr.SetVerbosity(8)` 即可正常输出日志。  
 开启 Debug 日志后再次执行测试，发现服务端使用 1.64.0 版本时 client 端确实未出现 spans 丢弃，而服务端切换为 2.1.0 版本后则在 client 端发生了 spans 丢弃。  
 
-#### Jaeger v1
+### Jaeger v1
 旧版 `jaeger-collector:1.64.0` 的程序入口在 [cmd/collector/main.go](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/main.go)，主要功能由 jaeger 自行实现，重点关注的部分为：
 * metrics
   * `jaeger_collector_spans_dropped_total` 初始化于 [NewSpanProcessorMetrics](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/metrics.go#L125)，实际使用是在 [NewSpanProcessor](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L58) 创建 [BoundedQueue](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L91) 时，作为 [droppedItemHandler](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L85) 传入
@@ -395,27 +394,117 @@ var (
 因此 `jaeger-collector:1.64.0` 接收 spans 的 otlpReceiver 来自 [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector)，接收到数据后再依次交由自行实现的 SpanProcessor 和 storage plugin 进行后续处理。  
 SpanProcessor 内维护了一个队列 BoundedQueue，在消费速度慢导致队列排满时就会主动丢弃 spans，从 client 端只能看到请求被正常响应，client 端感知不到服务端的主动丢弃。  
 
-#### Jaeger v2
+### Jaeger v2
 新版 `jaeger:2.1.0` 的程序入口在 [cmd/jaeger/main.go](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/main.go)，主要功能均来自 [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector)，重点关注的部分为：
 * metrics
-  * `otelcol_receiver_accepted_spans` 由 mdatagen 生成为 [ReceiverAcceptedSpans](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/receiverhelper/internal/metadata/generated_telemetry.go#L68)，在 receiverhelper 的 [ObsReport.EndTracesOp](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/receiverhelper/obsreport.go#L80) 中通过 [recordMetrics](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/receiverhelper/obsreport.go#L196) 更新，实际使用是在 [httpTracesReceiver](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/otlpreceiver/otlp.go#L137) 的 [Export](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/otlpreceiver/internal/trace/otlp.go#L33) 中
-  * `otelcol_exporter_sent_spans` 由 mdatagen 生成为 [ExporterSentSpans](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/internal/metadata/generated_telemetry.go#L146)，在 BaseExporter 的 [ObsReport.EndTracesOp](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/internal/obsexporter.go#L60) 中通过 [recordMetrics](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/internal/obsexporter.go#L118) 更新，实际使用是在 [BaseExporter](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/internal/base_exporter.go#L146) 链式调用到 [ObsrepSender.Send](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/traces.go#L157) 时
+  * `otelcol_receiver_accepted_spans` 由 [mdatagen](https://github.com/open-telemetry/opentelemetry-collector/tree/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/cmd/mdatagen) 生成为 [ReceiverAcceptedSpans](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/receiverhelper/internal/metadata/generated_telemetry.go#L68)，在 [receiverhelper](https://github.com/open-telemetry/opentelemetry-collector/tree/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/receiverhelper) 的 [ObsReport.EndTracesOp](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/receiverhelper/obsreport.go#L80) 中通过 [recordMetrics](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/receiverhelper/obsreport.go#L196) 更新，实际使用是在 [httpTracesReceiver](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/otlpreceiver/otlp.go#L137) 的 [Export](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/otlpreceiver/internal/trace/otlp.go#L33) 中
+  * `otelcol_exporter_sent_spans` 由 [mdatagen](https://github.com/open-telemetry/opentelemetry-collector/tree/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/cmd/mdatagen) 生成为 [ExporterSentSpans](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/internal/metadata/generated_telemetry.go#L146)，在 [exporterhelper](https://github.com/open-telemetry/opentelemetry-collector/tree/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper) 的 [ObsReport.EndTracesOp](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/internal/obsexporter.go#L60) 中通过 [recordMetrics](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/internal/obsexporter.go#L118) 更新，实际使用是在 [BaseExporter](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/internal/base_exporter.go#L146) 链式调用到 [ObsrepSender.Send](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/exporter/exporterhelper/traces.go#L157) 时
 * spans 接收
   * jaeger 只是提供了部分[配置项](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/internal/command.go#L36)，然后初始化 [otelcol.Collector](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/command.go#L32) 并执行 [Collector.Run](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/command.go#L36)。主体逻辑在 [setupConfigurationComponents](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L159) 中，初始化 [col.service](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L183) 并执行 [Service.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L228)
   * 初始化 [Service](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L102) 时会使用传入的 Configs 和 Factories 创建 [srv.host.Receivers](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L106C72-L106C81)/[srv.host.Processors](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L107)/[srv.host.Exporters](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L108)，然后执行 [initGraph](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L195) 调用 graph.Build 创建 [srv.host.Pipelines](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L342C5-L342C23)
   * [graph.Build](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/internal/graph/graph.go#L73) 中先通过 [createNodes](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/internal/graph/graph.go#L95) 依次创建 receiverNode/processorNode/exporterNode，再通过 [createEdges](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/internal/graph/graph.go#L251) 按顺序连接 `receiverNode -> capabilitiesNode -> processorNode -> fanOutNode -> exporterNode`，最后通过 [buildComponent](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/internal/graph/graph.go#L280) 调用 [Factory.CreateTraces](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/internal/builders/receiver.go#L48) 创建实例并保存为 [Node.Component](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/internal/graph/receiver.go#L55)
-  * 执行 [Service.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L228) 时会执行 [srv.host.Pipelines.StartAll](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L253)，依次调用前面创建完的各个 [Component.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/internal/graph/graph.go#L419)，例如 [receiver.Factory.createTraces](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/otlpreceiver/factory.go#L65) 得到的 [otlpReceiver.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/otlpreceiver/otlp.go#L188)
-  * receiverNode 接收到数据会分发到 processorNode，配置文件中使用的 batchProcessor，在默认未设置 metadata_keys 时使用 singleShardBatcher，其中 newItem 配置了 `make(chan T, runtime.NumCPU())`，使用 chan 和一个 goroutine 做 batch，无丢弃逻辑（runtime.NumCPU https://github.com/open-telemetry/opentelemetry-collector/commit/29cd959efcf89cd947a5838e3678cf6166a124c8#diff-77859b549c7fdee9e03e0122fd47d30a8d64a708a7378803bf3a8780c7bb1efa）
+  * 执行 [Service.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L228) 时会执行 [srv.host.Pipelines.StartAll](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L253)，依次调用前面创建保存的各个 [Component.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/internal/graph/graph.go#L419)，例如 [receiver.Factory.createTraces](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/otlpreceiver/factory.go#L65) 得到的 [otlpReceiver.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/receiver/otlpreceiver/otlp.go#L188)
+  * 配置文件中使用的 processors 只有 [batch](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/processor/batchprocessor/batch_processor.go#L113)，在默认未设置 `metadata_keys` 时会使用 [singleShardBatcher](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/processor/batchprocessor/batch_processor.go#L130) 创建 [batcher](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/processor/batchprocessor/batch_processor.go#L152)，其中 newItem 使用 `make(chan T, runtime.NumCPU())` 和一个 [goroutine](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/processor/batchprocessor/batch_processor.go#L183) 做 batch，无主动丢弃逻辑。将 buffered channel size 从 1 改为 `runtime.NumCPU` 的 commit 在 [29cd959](https://github.com/open-telemetry/opentelemetry-collector/commit/29cd959efcf89cd947a5838e3678cf6166a124c8)，无详细原因说明，推测是 receiver 会并行处理请求，为了减少数据写入 channel 时阻塞导致的 goroutine 切换。但对应到并行请求数量的话感觉 `runtime.GOMAXPROCS` 更为合适
 * spans 保存
-  * jaeger 同样是提供了部分[配置项](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/internal/command.go#L36)，然后初始化 [otelcol.Collector](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/command.go#L32) 并执行 [Collector.Run](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/command.go#L36)。主体逻辑在 [setupConfigurationComponents](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L159) 中，初始化 [col.service](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L183) 并执行 [Service.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L228)
-  * jaegerstorage extension
+  * jaeger 同样是只提供部分[配置项](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/internal/command.go#L36)，然后初始化 [otelcol.Collector](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/command.go#L32) 并执行 [Collector.Run](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/command.go#L36)。主体逻辑在 [setupConfigurationComponents](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L159) 中，初始化 [col.service](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L183) 并执行 [Service.Start](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/otelcol/collector.go#L228)
+  * 初始化 [Service](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L102) 时会使用传入的 Configs 和 Factories 创建 [srv.host.Receivers](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L106C72-L106C81)/[srv.host.Processors](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L107)/[srv.host.Exporters](https://github.com/open-telemetry/opentelemetry-collector/blob/4ed80bbc4d9a6753ba6b959f5625a6f75fa1229c/service/service.go#L108)，spans 保存主要涉及 srv.host.Exporters，jaeger 在提供 [factories.Exporters](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/internal/components.go#L90) 时添加了自定义的 [storageexporter.NewFactory](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/internal/exporters/storageexporter/factory.go#L23)，依赖自定义的 [jaeger_storage extension](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/internal/exporters/storageexporter/exporter.go#L37) 来初始化 [traceWriter](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/internal/exporters/storageexporter/exporter.go#L42C9-L42C20)
+  * 配置文件中使用的 jaeger_storage extension 只有 [elasticsearch](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/jaeger/internal/extension/jaegerstorage/extension.go#L157)，初始化 traceWriter 时调用的 [CreateTraceWriter](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/storage_v2/factoryadapter/factory.go#L47) 实际是 storage_v1 版本 CreateSpanWriter 的封装，对于 elasticsearch 来说就是 [esFactory.createSpanWriter](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/plugin/storage/es/factory.go#L262)，最终与 Jaeger v1 的 spans 保存实现相同，都会到 [writeSpan](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/plugin/storage/es/spanstore/writer.go#L152)
 
-### 功能设置
-TODO:   
-* 从前面的源码分析中得知服务端使用 2.1.0 版本时是 client 丢弃，因此 server 端不知道实际的 spans 数量，完整数据需要在 client 端进行统计  
-* 例如补充一个自定义 SpanProcessor 用于统计 spans 总数，封装一层 exporter 统计实际发送的 spans 数量，计算两者差值可以得到实际的丢弃数量  
-* v2 版本直接在 client 端设置 BlockOnQueueFull 可以实现禁止丢弃  
-* v1 版本未找到队列行为参数设置，还需要修改服务端源码才可以实现禁止丢弃  
+因此 `jaeger:2.1.0` 接收处理 spans 的 receivers 和 processors 都来自 [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector)，但保存数据的 jaeger_storage_exporter 是对自身已有 storage_v1 的封装。  
+BatchProcessor 内维护了一个队列 singleShardBatcher，但该队列不会主动丢弃 spans，在队列满时服务端会出现请求阻塞，推测 opentelemetry 更倾向把大量 spans 的场景优化放在 client 端。  
+
+## 功能增强
+### Jaeger v1
+从原因分析中可知服务端使用 `jaeger-collector:1.64.0` 时是服务端主动丢弃，client 端无任何感知，因此完整数据指标只能以服务端为准。  
+此外服务端 BoundedQueue 未找到行为参数设置，需要针对源码进行修改，再加上 client 端设置 BlockOnQueueFull 才可以实现禁止丢弃。  
+```go
+// https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/pkg/queue/bounded_queue.go#L104
+func (q *BoundedQueue) ProduceSync(item any) bool {
+	if q.stopped.Load() != 0 {
+		q.onDroppedItem(item)
+		return false
+	}
+
+	q.size.Add(1)
+	*q.items <- item
+	return true
+}
+
+// https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/cmd/collector/app/span_processor.go#L219
+func (sp *spanProcessor) enqueueSpan(span *model.Span, originalFormat processor.SpanFormat, transport processor.InboundTransport, tenant string) bool {
+	// ...
+	return sp.queue.ProduceSync(item) // Produce() => ProduceSync()
+}
+
+func main() {
+	// ...
+	provider := sdktrace.NewTracerProvider(
+		sdktrace.WithBatcher(exporter, sdktrace.WithBlocking()),
+		sdktrace.WithResource(rsc),
+	)
+	// ...
+}
+```
+
+### Jaeger v2
+从原因分析中可知服务端使用 `jaeger:2.1.0` 时是 client 端主动丢弃，因此服务端并不知道实际的 spans 数量，完整数据指标需要在 client 端进行统计。  
+例如补充一个自定义 SpanProcessor 用于统计 spans 总数，封装一层 exporter 统计实际发送的 spans 数量，计算两者的差值来得到实际的丢弃数量。  
+```go
+type countExporter struct {
+	*otlptrace.Exporter
+	Sum *atomic.Int64
+}
+
+func (e *countExporter) ExportSpans(ctx context.Context, ss []sdktrace.ReadOnlySpan) error {
+	e.Sum.Add(int64(len(ss)))
+	return e.Exporter.ExportSpans(ctx, ss)
+}
+func (e *countExporter) Shutdown(ctx context.Context) error {
+	log.Printf("shutdown countExporter %d", e.Sum.Load())
+	return e.Exporter.Shutdown(ctx)
+}
+
+type countSpanProcessor struct {
+	Sum *atomic.Int64
+}
+
+func (sp *countSpanProcessor) OnStart(parent context.Context, s sdktrace.ReadWriteSpan) {}
+func (sp *countSpanProcessor) OnEnd(s sdktrace.ReadOnlySpan)                            { sp.Sum.Add(1) }
+func (sp *countSpanProcessor) Shutdown(ctx context.Context) error {
+	log.Printf("shutdown countSpanProcessor %d", sp.Sum.Load())
+	return nil
+}
+func (sp *countSpanProcessor) ForceFlush(ctx context.Context) error { return nil }
+
+func main() {
+	// ...
+	provider := sdktrace.NewTracerProvider(
+		sdktrace.WithBatcher(&countExporter{exporter, new(atomic.Int64)}),
+		sdktrace.WithSpanProcessor(&countSpanProcessor{new(atomic.Int64)}),
+		sdktrace.WithResource(rsc),
+	)
+	// ...
+}
+```
+
+此外在 client 端为 BatchSpanProcessor 设置 BlockOnQueueFull 即可实现禁止丢弃。  
+```go
+func main() {
+	// ...
+	provider := sdktrace.NewTracerProvider(
+		sdktrace.WithBatcher(exporter, sdktrace.WithBlocking()),
+		sdktrace.WithResource(rsc),
+	)
+	// ...
+}
+```
 
 ## 拓展
-TODO: [BoundedQueue](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/pkg/queue/bounded_queue.go)
+* [BoundedQueue](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/pkg/queue/bounded_queue.go#L26) 在 2017 年的提交 [simplify span processor queue](https://github.com/jaegertracing/jaeger/commit/0ef81e47cacd7a5ee76fc631dd4b7e58d6e57318) 中修改了丢弃逻辑，将 `drop oldest` 简化为了 `drop newest`，同时删除了[注释](https://github.com/jaegertracing/jaeger/blob/65cff3c30823ea20d3dc48bae39d5685ae307da5/pkg/queue/bounded_queue.go#L24)中提到的 [Reaper goroutine](https://github.com/jaegertracing/jaeger/blob/008695e6d9331b9cee159912026849eb9caf0d42/pkg/queue/drop_oldest_queue.go#L62)。
+* 搜索 `make(chan T, runtime.NumCPU())` 相关原因时涉及到了 goroutines 调度规则，[部分文章](https://dev.to/girishg4t/internals-of-goroutines-and-channels-397p)提到说  
+  > Goroutines are cooperatively scheduled... The switch between goroutines only happens at well defined points...  
+
+  但实际上 2020 年的 [Go 1.14 Release Notes](https://go.dev/doc/go1.14#runtime) 明确提到了  
+  > Goroutines are now asynchronously preemptible. As a result, loops without function calls no longer potentially deadlock the scheduler or significantly delay garbage collection.  
+
+  因此最新最准确的 goroutine scheduler 说明可能要去翻 runtime 相关源码了，例如 [src/runtime/HACKING.md](https://github.com/golang/go/blob/194de8fbfaf4c3ed54e1a3c1b14fc67a830b8d95/src/runtime/HACKING.md) 和 [src/runtime/proc.go](https://github.com/golang/go/blob/194de8fbfaf4c3ed54e1a3c1b14fc67a830b8d95/src/runtime/proc.go)。
