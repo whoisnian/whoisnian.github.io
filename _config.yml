@@ -1,8 +1,8 @@
 # Site Settings
-title: '念'
-description: 'Anything is possible'
-url: 'https://whoisnian.com'
-baseurl: ''
+title: 念
+description: Anything is possible
+url: https://whoisnian.com
+baseurl: ""
 
 # Building Settings
 markdown: kramdown

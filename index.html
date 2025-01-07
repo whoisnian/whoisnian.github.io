@@ -13,18 +13,18 @@ title: Home
     </h1>
 
     <span class="post-date">
-	  {{ post.date | date:"%Y-%m-%d" }}
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
-	  {% for category in post.categories %}
-	    <a href="/category/#{{ category }}">{{ category }}</a>
-	  {% endfor %}
-	</span>
+      {{ post.date | date:"%Y-%m-%d" }}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      {% for category in post.categories %}
+        <a href="/category/#{{ category }}">{{ category }}</a>
+      {% endfor %}
+    </span>
 
     {{ post.excerpt }}
-	<div class="read-all">
-	  <a href="{{ post.url }}">Read All</a>
-	</div>
-	<hr/>
+    <div class="read-all">
+      <a href="{{ post.url }}">Read All</a>
+    </div>
+    <hr/>
   </div>
   {% endfor %}
 </div>
