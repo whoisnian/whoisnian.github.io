@@ -1,12 +1,8 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'jekyll', '~> 4.2.0'
+gem "jekyll", "~> 4.3"
 
-# Syntax highlighter
-gem 'rouge'
-
-# Other plugins
 group :jekyll_plugins do
-  gem 'jekyll-feed'
-  gem 'jekyll-paginate'
+  gem "jekyll-feed", "~> 0.17.0"
+  gem "jekyll-paginate", "~> 1.1"  
 end
