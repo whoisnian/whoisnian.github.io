@@ -16,6 +16,7 @@ plugins:
 
 # paginate
 paginate: 10
+paginate_path: "/page/:num/"
 
 # excerpt
-excerpt_separator: '<!-- more -->'
+excerpt_separator: "<!-- more -->"
