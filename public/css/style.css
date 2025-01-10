@@ -379,6 +379,18 @@ a.sidebar-nav-item:focus {
   font-weight: 300;
 }
 
+.category-button {
+  display: inline-block;
+  padding: .25em .5em;
+  border: solid 1px;
+  margin: .25em;
+}
+
+.category-button:hover {
+  text-decoration: none;
+  background: #cccccc;
+}
+
 /*
  * Messages
  *

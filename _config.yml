@@ -13,10 +13,19 @@ permalink: /:year/:month/:day/:title/
 plugins:
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-archives
 
 # paginate
 paginate: 10
 paginate_path: "/page/:num/"
+
+# categories
+jekyll-archives:
+  enabled:
+    - categories
+  layout: category
+  permalinks:
+    category: "/category/:name/"
 
 # excerpt
 excerpt_separator: "<!-- more -->"

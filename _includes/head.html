@@ -15,8 +15,10 @@
   <title>
     {% if page.title == "Home" %}
       {{ site.title }}
+    {% elsif page.type == "category" %}
+      Category: {{ page.title }} - {{ site.title }}
     {% else %}
-      {{ page.title }}
+      {{ page.title }} - {{ site.title }}
     {% endif %}
   </title>
 
