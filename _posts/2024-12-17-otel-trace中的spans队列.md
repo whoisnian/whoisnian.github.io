@@ -1,7 +1,7 @@
 ---
 layout: post
 title: otel-trace中的spans队列
-categories: Server
+categories: server
 ---
 
 > 还是本地搭建的 [tracing-benchmark](https://github.com/whoisnian/tracing-benchmark) 测试环境，测试过程中观察到 jaeger 在 v1 和 v2 不同版本下提供的 metrics 不同，且都包含关于 spans 数量的统计。  

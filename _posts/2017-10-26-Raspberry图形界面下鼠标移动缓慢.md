@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Raspberry图形界面下鼠标移动缓慢
-categories: Raspberry
+categories: raspberry
 ---
 
 > 树莓派使用图形界面时发现鼠标移动极为缓慢，即使调高DPI或者换用鼠标也没有改善。

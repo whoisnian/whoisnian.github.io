@@ -1,7 +1,7 @@
 ---
 layout: post
 title: WPS Office使用记录
-categories: ArchLinux
+categories: archlinux
 ---
 
 > 在 ArchLinux 上使用 WPS Office 的一些记录。

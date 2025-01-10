@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Qt中的new和delete
-categories: Programming
+categories: programming
 ---
 
 > Delete, or not delete, that is the question.

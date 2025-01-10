@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Socket: UDP echo Server'
-categories: Programming
+categories: programming
 ---
 
 > 玩socket第二篇，使用UDP实现简单的echo服务器。

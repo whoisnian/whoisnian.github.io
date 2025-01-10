@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Socket: HTTP Server'
-categories: Programming
+categories: programming
 ---
 
 > 玩socket第三篇，使用TCP模拟简单的HTTP服务。

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 设置Wine调用Linux浏览器代替内置IE
-categories: ArchLinux
+categories: archlinux
 ---
 
 > 装完WineQQ之后在QQ中点击链接，打开邮箱等，默认调用的是Wine内置IE，十分辣眼睛。  

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: QWebEngineView修改请求并获取响应
-categories: Programming
+categories: programming
 ---
 
 > 在自己的Qt程序中想通过QQ邮箱的通讯录来获取好友列表，考虑到登录过程的不确定性，希望效果是在浏览器中打开QQ邮箱登录页面，用户手动登录后浏览器窗口自动关闭，然后程序再请求需要的内容。

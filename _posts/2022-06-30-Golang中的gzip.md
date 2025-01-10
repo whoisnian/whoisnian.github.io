@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Golang中的gzip
-categories: Programming
+categories: programming
 ---
 
 > 尝试将 struct 序列化为 json 后走 TCP 传输，在 bytes stream 上利用 json 实现 packets stream。  

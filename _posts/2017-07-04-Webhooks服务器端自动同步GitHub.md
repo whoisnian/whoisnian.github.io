@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Webhooks服务器端自动同步GitHub
-categories: Git
+categories: git
 ---
 
 > 我的Jekyll博客是放在阿里云上的，因此每次在本地修改文章后上传到GitHub，还需要登录服务器从GitHub同步下来，并重新构建一次。  

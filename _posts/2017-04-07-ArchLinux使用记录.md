@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ArchLinux使用记录
-categories: ArchLinux
+categories: archlinux
 ---
 
 > 使用 ArchLinux 过程中的一些记录。

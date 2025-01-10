@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Apache反向代理Google
-categories: Server
+categories: server
 ---
 
 > 偶然间发现了一个反向代理 Google 的网站，感觉用起来很方便，于是就想自己也搭一个玩玩。  

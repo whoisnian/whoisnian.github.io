@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Socket: TCP echo Server'
-categories: Programming
+categories: programming
 ---
 
 > 玩socket第一篇，简单的TCP echo服务器。

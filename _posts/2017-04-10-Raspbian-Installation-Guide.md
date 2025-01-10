@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Raspbian Installation Guide
-categories: Raspberry
+categories: raspberry
 ---
 
 > Raspberry 入门配置过程。

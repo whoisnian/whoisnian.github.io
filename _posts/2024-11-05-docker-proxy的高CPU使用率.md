@@ -1,7 +1,7 @@
 ---
 layout: post
 title: docker-proxy的高CPU使用率
-categories: Server
+categories: server
 ---
 
 > 本地使用 docker 来搭建 [tracing-benchmark](https://github.com/whoisnian/tracing-benchmark) 的测试环境，在测试过程中观察到默认的 bridge 网络下 `docker-proxy` 进程的 CPU 使用率甚至会高于应用容器本身。  

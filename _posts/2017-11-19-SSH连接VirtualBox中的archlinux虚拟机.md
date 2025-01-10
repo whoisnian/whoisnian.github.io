@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SSH连接VirtualBox中的archlinux虚拟机
-categories: ArchLinux
+categories: archlinux
 ---
 
 > 玩Socket时想要使用VirtualBox来模拟两台电脑的效果，于是就往里面装了一个没有图形界面的archlinux，却在SSH连接时遇到了问题。

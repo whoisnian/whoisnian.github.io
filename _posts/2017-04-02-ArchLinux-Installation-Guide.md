@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ArchLinux Installation Guide
-categories: ArchLinux
+categories: archlinux
 ---
 
 > Arch Linux 安装记录。  
