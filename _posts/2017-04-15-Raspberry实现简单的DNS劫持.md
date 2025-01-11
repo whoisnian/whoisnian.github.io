@@ -2,6 +2,7 @@
 layout: post
 title: Raspberry实现简单的DNS劫持
 categories: raspberry
+last_modified_at: 2020-03-06T23:03:34+08:00
 ---
 
 > 受到一些无线路由器的启发，想在连接无线AP后通过访问一个本地域名来实现访问树莓派IP的目的，Google得到可以设置本地DNS进行解析。然后就突然想到可以做一次简单的DNS劫持测试。

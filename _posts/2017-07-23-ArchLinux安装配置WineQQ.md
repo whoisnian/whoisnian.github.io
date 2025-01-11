@@ -2,6 +2,7 @@
 layout: post
 title: ArchLinux安装配置WineQQ
 categories: archlinux
+last_modified_at: 2020-03-06T23:03:34+08:00
 ---
 
 > 体验了一段时间通过Virtualbox的无缝模式使用QQ。  

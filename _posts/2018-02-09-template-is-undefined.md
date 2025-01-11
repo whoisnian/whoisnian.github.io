@@ -2,6 +2,7 @@
 layout: post
 title: "template is undefined"
 categories: programming
+last_modified_at: 2018-02-10T17:48:42+08:00
 ---
 
 > 初学 Go 语言，跟着[Writing Web Applications](https://golang.org/doc/articles/wiki/)里的教程走了一遍，然后自己练习使用`html/template`时却遇到错误：`html/template: *** is undefined`，一个小问题纠结了半个小时。  

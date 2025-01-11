@@ -2,6 +2,7 @@
 layout: post
 title: Qt Creator设置项目文件关联
 categories: archlinux
+last_modified_at: 2017-12-19T11:53:13+08:00
 ---
 
 > 学期末的数据结构课设，准备用Qt写图形界面，于是就在电脑上装了Qt Creator，用起来感觉还不错。  

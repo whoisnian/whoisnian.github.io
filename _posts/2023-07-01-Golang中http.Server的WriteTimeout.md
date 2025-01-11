@@ -2,6 +2,7 @@
 layout: post
 title: Golang中http.Server的WriteTimeout
 categories: programming
+last_modified_at: 2023-07-02T22:21:11+08:00
 ---
 
 > 新功能上线后 Nginx 的日志监控频繁上报某类请求 `502 Bad Gateway`，但在对应的 Golang 后端服务日志中却没有找到任何异常。  

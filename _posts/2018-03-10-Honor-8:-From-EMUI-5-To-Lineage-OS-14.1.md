@@ -2,6 +2,7 @@
 layout: post
 title: 'Honor 8: From EMUI 5 To Lineage OS 14.1'
 categories: others
+last_modified_at: 2020-03-06T23:03:34+08:00
 ---
 
 > 一直想在自己手机上体验一下原生安卓，很久之前就看上了 [Lineage OS](https://lineageos.org/)。  

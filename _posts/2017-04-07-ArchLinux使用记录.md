@@ -2,6 +2,7 @@
 layout: post
 title: ArchLinux使用记录
 categories: archlinux
+last_modified_at: 2022-10-08T00:54:58+08:00
 ---
 
 > 使用 ArchLinux 过程中的一些记录。

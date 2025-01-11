@@ -2,6 +2,7 @@
 layout: post
 title: ArchLinux Installation Guide
 categories: archlinux
+last_modified_at: 2024-03-10T00:54:26+08:00
 ---
 
 > Arch Linux 安装记录。  

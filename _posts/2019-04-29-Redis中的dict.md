@@ -2,6 +2,7 @@
 layout: post
 title: Redis中的dict
 categories: programming
+last_modified_at: 2019-05-02T03:03:21+08:00
 ---
 
 > 在查看Redis源码的过程中可以发现，各种命令的实现基本都用到了`src/db.c`中对`db`操作的封装，而对`db`的各种操作则又用到了`src/dict.c`中对`dict`操作的封装。  

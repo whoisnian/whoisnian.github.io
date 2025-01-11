@@ -2,6 +2,7 @@
 layout: post
 title: Raspbian Installation Guide
 categories: raspberry
+last_modified_at: 2020-03-06T23:03:34+08:00
 ---
 
 > Raspberry 入门配置过程。

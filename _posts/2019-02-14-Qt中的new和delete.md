@@ -2,6 +2,7 @@
 layout: post
 title: Qt中的new和delete
 categories: programming
+last_modified_at: 2020-03-06T23:03:34+08:00
 ---
 
 > Delete, or not delete, that is the question.

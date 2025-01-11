@@ -2,6 +2,7 @@
 layout: post
 title: 在 chroot jail 中运行Golang程序
 categories: programming
+last_modified_at: 2023-10-25T01:22:22+08:00
 ---
 
 > 使用 chroot 命令可以改变进程的可见根目录，创建出一个 chroot jail，限制对应进程可访问到的文件，降低程序的部分安全风险。  

@@ -2,6 +2,7 @@
 layout: post
 title: 在Ubuntu上为MySQL的root用户设置空密码
 categories: server
+last_modified_at: 2020-12-07T00:15:05+08:00
 ---
 
 > 自己有一台操作系统为`Ubuntu 18.04.5 LTS`的测试服务器，使用`ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';`为 MySQL 的root用户设置了空密码。  

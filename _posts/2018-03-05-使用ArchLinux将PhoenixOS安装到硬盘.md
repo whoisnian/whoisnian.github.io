@@ -2,6 +2,7 @@
 layout: post
 title: 使用ArchLinux将PhoenixOS安装到硬盘
 categories: archlinux
+last_modified_at: 2020-03-06T23:03:34+08:00
 ---
 
 > 想在PC上体验《绝地求生：刺激战场》，而虚拟机的性能又太低，就想到了之前体验过的 PhoenixOS 。  

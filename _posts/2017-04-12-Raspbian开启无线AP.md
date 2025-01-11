@@ -2,6 +2,7 @@
 layout: post
 title: Raspbian开启无线AP
 categories: raspberry
+last_modified_at: 2018-12-06T02:20:13+08:00
 ---
 
 > 开启无线AP后，树莓派就成为了一个无线路由器，而且以后只需要通过WIFI连接热点，就可以SSH连接树莓派了。
