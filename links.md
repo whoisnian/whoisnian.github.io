@@ -14,5 +14,6 @@ last_modified_at: 2022-02-21T00:00:16+08:00
 <hr/>
 
 ### My Other Sites
-* [Share-Go](https://share.whoisnian.com:8020) : A website to share files (CN).
-* [GetMyIP](https://ip.whoisnian.com) : Get your IP address with Cloudflare Workers.
+* [Share-Go](https://share.whoisnian.com:8020): A website to share files (CN).
+* [GetMyIP](https://ip.whoisnian.com): Get your IP address with Cloudflare Workers.
+* [Snippets](https://snippets.whoisnian.com): Collection of knowledge snippets.
