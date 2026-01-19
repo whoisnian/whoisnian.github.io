@@ -12,6 +12,7 @@ permalink: /:year/:month/:day/:title/
 # plugins
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
   - jekyll-paginate
   - jekyll-archives
 
