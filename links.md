@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Links
-last_modified_at: 2022-02-21T00:00:16+08:00
+last_modified_at: 2026-10-25T11:39:37+08:00
 ---
 
 ### My Friends
@@ -15,5 +15,5 @@ last_modified_at: 2022-02-21T00:00:16+08:00
 
 ### My Other Sites
 * [Share-Go](https://share.whoisnian.com:8020): A website to share files (CN).
-* [GetMyIP](https://ip.whoisnian.com): Get your IP address with Cloudflare Workers.
 * [Snippets](https://snippets.whoisnian.com): Collection of knowledge snippets.
+* [rocom-pets](https://rkpet.whoisnian.com): AI-powered pet preview website for [Roco Kingdom](https://rocom.qq.com).
